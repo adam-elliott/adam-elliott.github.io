@@ -143,6 +143,12 @@
     // Courage interval
     let curInterval = 0;
     
+    // Speed at which courage drops
+    let dropSpeed = -10;
+    
+    // Speed at which courage rises;
+    let riseSpeed = 10;    
+    
     // Build a wall
     let myWall = document.createElement("div");
     myWall.classList.add('wall');
@@ -195,10 +201,16 @@
         // increase courage when home
         function checkHome() {
             if ( curPosX == 0 && curPosY == 0 ) {
-                curInterval = 10;
+                // Controls drop speed
+                curInterval = riseSpeed;
+                
+                // Allow player to access map
                 $("#viewGuide").fadeIn();
             } else {
-                curInterval = -10;
+                // Controls rise speed
+                curInterval = dropSpeed;
+                
+                // Disallow player to access map
                 $("#viewGuide").fadeOut();
             }
         }

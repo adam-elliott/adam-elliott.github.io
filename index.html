@@ -174,9 +174,24 @@
             
             
             // Test if character can move to destination cell
-            function checkMove() {
-                let newPosX = curPosX + charSize;
-                let newPosY = curPosY + charSize;
+            function checkMove(n) {
+                let newPosX = 0;
+                let newPosY = 0;
+                
+                if (n == "+x") {
+                    newPosX = curPosX + charSize;
+                } else if (n == "-x") {
+                    newPosX = curPosX - charSize;
+                } else {
+                    newPosX = curPosX;
+                }
+                if (n == "+y") {
+                    newPosY = curPosY + charSize;
+                } else if (n == "-y") {
+                    newPosY = curPosY - charSize;
+                } else {
+                    newPosY = curPosY;
+                }
                 console.log(newPosX);
                 console.log(newPosY);
                 for (let i=0; i<colliderCells.length; i++) {
@@ -196,7 +211,7 @@
     				e.preventDefault();
                     
                     // Check if cell is blocked
-                    if ( checkMove() ) {
+                    if ( checkMove("-x") ) {
                     
                         // Character movement
                         if (curPosX >= charSize) {
@@ -215,7 +230,7 @@
                                 "scrollLeft": ((-1 * (window.innerWidth) / 2))
                             }, 500);
                             currViewX -= 1;
-                            console.log(currViewX);
+                            //console.log(currViewX);
                         }
                     }
     				break;
@@ -224,7 +239,7 @@
     				e.preventDefault();
                     
                     // Check if cell is blocked
-                    if ( checkMove() ) {
+                    if ( checkMove("-y") ) {
                         
                         // Character movement
                         if (curPosY >= charSize) {
@@ -243,7 +258,7 @@
                                 "scrollTop": ((-1 * (window.innerHeight * currViewY) / 2))
                             }, 500);
                             currViewY -= 1;
-                            console.log(currViewY);
+                            //console.log(currViewY);
                         }
                     }
     				break;
@@ -253,7 +268,7 @@
                     e.preventDefault();
                     
                     // Check if cell is blocked
-                    if ( checkMove() ) {
+                    if ( checkMove("+x") ) {
                     
                         // Character movement
                         if (curPosX >= 0) {
@@ -272,7 +287,7 @@
                                 "scrollLeft": ((window.innerWidth * currViewX) / 2)
                             }, 500);
                             currViewX += 1;
-                            console.log(currViewX);
+                            //console.log(currViewX);
                         }
                     
                     }
@@ -282,7 +297,7 @@
     				e.preventDefault();
                     
                     // Check if cell is blocked
-                    if ( checkMove() ) {
+                    if ( checkMove("+y") ) {
                     
                         // Character movement
                         if (curPosX >= 0) {
@@ -301,7 +316,7 @@
                                 "scrollTop": ((window.innerHeight * currViewY) / 2)
                             }, 500);
                             currViewY += 1;
-                            console.log(currViewY);
+                            //console.log(currViewY);
                         }
                     }
     				break;

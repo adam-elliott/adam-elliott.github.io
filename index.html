@@ -11,6 +11,7 @@
     <style>
         
         html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+        button{display:inline-block;border:none;padding:.25rem 1rem;margin:0;text-decoration:none;background:#0069ed;color:#fff;font-family:sans-serif;font-size:1rem;cursor:pointer;text-align:center;transition:background 250ms ease-in-out,transform 150ms ease;-webkit-appearance:none;-moz-appearance:none}
         
         body {
             margin:0;
@@ -66,9 +67,28 @@
          height:20px;
         }
         
-        .wall {
+        #wall {
             border:1px solid black;
             width:32px;
+            height:32px;
+            position:absolute;
+            top:64px;
+            left:64px;
+            background-color:grey;
+        }
+        
+        #viewGuide {
+            margin:0 25px;
+        }
+        
+        #mapOverlay {
+            position:fixed;
+            left:0;
+            top:0;
+            right:0;
+            bottom:0;
+            background-color: rgba(0,0,0,.9);
+            z-index: 1000;
         }
         
     </style>
@@ -76,8 +96,13 @@
 </head>
 
 <body>
+<div id="mapOverlay">
+    <button id="closeGuide">Close Map</button>
+</div>
+    
 <div id="hud">
     <h1> Game Jam 2019</h1>
+    <button id="viewGuide">View Map</button>
     <div id="courageMeter">
         <div id="courage"></div>
     </div>
@@ -85,6 +110,7 @@
 
 <div id="map">
     <div id="character"></div>
+    <div id="wall"></div>
 </div>
 
 </body>
@@ -124,6 +150,7 @@
     // Define cells that are off limits
     let colliderCells = [ {x:64,y:64},{x:128,y:128} ]
     
+
     // Character move controls
     $(document).ready(function() {
         // Reset window scroll position
@@ -131,6 +158,20 @@
             $(window).scrollLeft(0);
             $(window).scrollTop(0);
         },50)
+        
+        // Setup map controls
+        $('#mapOverlay').hide();    
+        
+        $('#viewGuide').on("click",function(e) {
+            e.preventDefault();
+            $('#mapOverlay').fadeIn();    
+        });
+        
+        $('#closeGuide').on("click",function(e) {
+            e.preventDefault();
+            $('#mapOverlay').fadeOut();    
+        });
+    
         
         // Set character size
         $('#character').css("width",charSize + "px");
@@ -150,12 +191,15 @@
                     "width": curCourage + "%"
                 }, 500); }, 1000);
 
+                
         // increase courage when home
         function checkHome() {
             if ( curPosX == 0 && curPosY == 0 ) {
                 curInterval = 10;
+                $("#viewGuide").fadeIn();
             } else {
                 curInterval = -10;
+                $("#viewGuide").fadeOut();
             }
         }
                 

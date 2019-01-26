@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>GameJam</title>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    
+    <style>
+        
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+        
+        body {
+            margin:0;
+            padding:0;
+            overflow:hidden;
+        }
+        
+        #hud {
+            position:fixed;
+            top:0;
+            right:0;
+            left:0;
+            z-index:6;
+            height:50px;
+            padding:15px 15px;
+            box-sizing: border-box;
+            font-size:20px;
+            font-family:Poppins;
+            background-color:rgba(255,255,255,1);
+            box-shadow: 5px 5px 15px rgba(25,25,25,.3); 
+        }
+        
+        #map {
+            width:5000vw;
+            height:5000vh;
+            background:url(images/grid.png);
+            position:relative;
+            margin-top:50px;
+        }
+        
+        #character {
+            width:128px;
+            height:128px;
+            background-color:red;
+            position:absolute;
+            left:0;
+            top:0;
+        }
+        
+        #hud h1 {
+            float:left;
+        }
+        
+        #courageMeter {
+            width: 300px;
+            height:20px;
+            border:1px solid grey;
+            float:right
+        }
+        
+        #courage{
+         background-color:red;
+         height:20px;
+        }
+        
+        .wall {
+            border:1px solid black;
+            width:32px;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+<div id="hud">
+    <h1> Game Jam 2019</h1>
+    <div id="courageMeter">
+        <div id="courage"></div>
+    </div>
+</div>
+
+<div id="map">
+    <div id="character"></div>
+</div>
+
+</body>
+
+<script>
+    // Character position
+    let curPosX = 0;
+    let curPosY = 0;
+    
+    // Character size
+    let charSize = 32;
+    
+    // Character move speed
+    let animSpeed = 100;
+
+    // Character move boolean
+    let canMove = true;
+    
+    // Window scroll position indicators
+    let currViewX = 1;
+    let currViewY = 1;
+    let currX = 0;
+    let currY = 0;
+    
+    let scrollAdv = window.innerwidth/2;
+    
+    // Initial courage
+    let curCourage = 100;
+    
+    // Courage interval
+    let curInterval = 0;
+    
+    // Build a wall
+    let myWall = document.createElement("div");
+    myWall.classList.add('wall');
+    
+    // Define cells that are off limits
+    let colliderCells = [ {x:64,y:64},{x:128,y:128} ]
+    
+    // Character move controls
+    $(document).ready(function() {
+        // Reset window scroll position
+        setTimeout(function(){
+            $(window).scrollLeft(0);
+            $(window).scrollTop(0);
+        },50)
+        
+        // Set character size
+        $('#character').css("width",charSize + "px");
+        $('#character').css("height",charSize + "px");
+        
+        // Set courage 
+        $('#courage').css('width', curCourage +"%");
+        
+        
+        // Start courage level timer
+        setInterval(function() {
+            curCourage += curInterval;
+            if (curCourage > 100) {
+                curCourage = 100;
+            }
+            $('#courage').animate({
+                    "width": curCourage + "%"
+                }, 500); }, 1000);
+
+        // increase courage when home
+        function checkHome() {
+            if ( curPosX == 0 && curPosY == 0 ) {
+                curInterval = 10;
+            } else {
+                curInterval = -10;
+            }
+        }
+                
+    	$(document).on( "keydown", function(e) {
+
+            // Optional Setting : Courage decreases with moves
+            //curCourage -= 1;
+            //$('#courage').css('width',curCourage +"%")
+                
+            // Loser message    
+            if (curCourage <= -1) {
+                alert("Game over! You lost.");
+                $(document).off();
+            }
+            
+            
+            
+            // Test if character can move to destination cell
+            function checkMove() {
+                let newPosX = curPosX + charSize;
+                let newPosY = curPosY + charSize;
+                console.log(newPosX);
+                console.log(newPosY);
+                for (let i=0; i<colliderCells.length; i++) {
+                    if (colliderCells[i].x == newPosX && colliderCells[i].y == newPosY) {
+                        console.log("false");
+                        return false;
+                    } else {
+                        console.log("true");
+                        return true;
+                    }
+                }
+            }
+            
+    		// Move character    
+    		switch (e.which) {
+    			case 37: // left
+    				e.preventDefault();
+                    
+                    // Check if cell is blocked
+                    if ( checkMove() ) {
+                    
+                        // Character movement
+                        if (curPosX >= charSize) {
+                            curPosX -= charSize;
+                            $('#character').animate({
+                                left: curPosX
+                            }, animSpeed, function() {
+                                // Animation complete.
+                                checkHome();
+                            });
+                        }
+                        
+                        // Window scroll
+                        if (curPosX < ((window.innerWidth * currViewX) / 2)) {
+                            $('html, body').animate({
+                                "scrollLeft": ((-1 * (window.innerWidth) / 2))
+                            }, 500);
+                            currViewX -= 1;
+                            console.log(currViewX);
+                        }
+                    }
+    				break;
+
+    			case 38: // up
+    				e.preventDefault();
+                    
+                    // Check if cell is blocked
+                    if ( checkMove() ) {
+                        
+                        // Character movement
+                        if (curPosY >= charSize) {
+                        curPosY -= charSize;
+                        $('#character').animate({
+                            top: curPosY
+                        }, animSpeed, function() {
+                            // Animation complete.
+                            checkHome();
+                        });
+                        }
+                        
+                        // Window scroll
+                        if (curPosY < ((window.innerHeight * currViewY) / 2)) {
+                            $('html, body').animate({
+                                "scrollTop": ((-1 * (window.innerHeight * currViewY) / 2))
+                            }, 500);
+                            currViewY -= 1;
+                            console.log(currViewY);
+                        }
+                    }
+    				break;
+
+    			case 39: // right
+    				//console.log(e);
+                    e.preventDefault();
+                    
+                    // Check if cell is blocked
+                    if ( checkMove() ) {
+                    
+                        // Character movement
+                        if (curPosX >= 0) {
+                            curPosX += charSize;
+                            $('#character').animate({
+                                left: curPosX
+                            }, animSpeed, function() {
+                                // Animation complete.
+                                checkHome();
+                            });
+                        }
+                        
+                        // Window scroll
+                        if (curPosX > ((window.innerWidth * currViewX) / 2)) {
+                            $('html, body').animate({
+                                "scrollLeft": ((window.innerWidth * currViewX) / 2)
+                            }, 500);
+                            currViewX += 1;
+                            console.log(currViewX);
+                        }
+                    
+                    }
+    				break;
+
+    			case 40: // down
+    				e.preventDefault();
+                    
+                    // Check if cell is blocked
+                    if ( checkMove() ) {
+                    
+                        // Character movement
+                        if (curPosX >= 0) {
+                        curPosY += charSize;
+                        $('#character').animate({
+                            top: curPosY
+                        }, animSpeed, function() {
+                            // Animation complete.
+                            checkHome();
+                        });
+                        }
+    
+                        // Window scroll
+                        if (curPosY > ((window.innerHeight * currViewY) / 2)) {
+                            $('html, body').animate({
+                                "scrollTop": ((window.innerHeight * currViewY) / 2)
+                            }, 500);
+                            currViewY += 1;
+                            console.log(currViewY);
+                        }
+                    }
+    				break;
+
+    			default:
+    				return; // exit this handler for other keys
+    		}
+    		e.preventDefault(); // prevent the default action (scroll / move caret)
+    	});
+
+    });
+
+// Tasks - build courage
+// picking flowers
+// borrowing cup of sugar
+// crossing street
+// shoveling snow
+// planting garden
+// catching bugs
+// chores
+
+
+
+</script>
+</html>
+
+

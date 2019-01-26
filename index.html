@@ -35,9 +35,9 @@
         }
         
         #map {
-            width:5000vw;
-            height:5000vh;
-            background:url(images/grid.png);
+            width:3200px;
+            height:3200px;
+            /*background:url(images/grid.png);*/
             position:relative;
             margin-top:50px;
         }
@@ -66,13 +66,32 @@
          background-color:red;
          height:20px;
         }
+        .cell {
+            height:32px;
+            width: 32px;
+            float:left;
+            border:1px solid blue;
+            box-sizing: border-box;
+        }
+        
+        .active {
+            background-color:blue;
+        }
+        
+        .active2 {
+            background-color:green;
+        }
+        
+        .home {
+            background-color:green;
+        }
         
         #wall {
             border:1px solid black;
             width:32px;
             height:32px;
             position:absolute;
-            top:64px;
+            top:128px;
             left:64px;
             background-color:grey;
         }
@@ -91,6 +110,10 @@
             z-index: 1000;
         }
         
+        #generateColliders, #generateModifiers {
+            display:none;
+        }
+        
     </style>
 
 </head>
@@ -103,6 +126,9 @@
 <div id="hud">
     <h1> Game Jam 2019</h1>
     <button id="viewGuide">View Map</button>
+    <button id="mapMode">Map Build Mode</button>
+    <button id="generateColliders">Export Collider Map</button>
+    <button id="generateModifiers">Export Modifer Map</button>
     <div id="courageMeter">
         <div id="courage"></div>
     </div>
@@ -116,6 +142,71 @@
 </body>
 
 <script>
+    function mapModeInit(){
+        $('body').css('overflow','scroll');
+            
+        $('#generateColliders').fadeIn();
+        $('#generateModifiers').fadeIn();
+            
+        for (let i=0; i<10000; i++) {
+            let myCell = document.createElement('div');
+            myCell.classList.add("cell");
+            document.getElementById('map').appendChild(myCell);
+        }
+        
+        // Controls for building map elements
+        $('.cell').click(function(){$(this).toggleClass('active');})
+        $('.cell').dblclick(function(){
+            $(this).toggleClass('active2');
+            $(this).data( "courage" , prompt("Please specify a value of this modifier. (i.e. 5 or -5)")  ); }
+        )
+        $( ".cell" ).contextmenu(function() {
+            alert("x: "+ $(this).offset().left + " , y: " + $(this).offset().top);
+          });
+        
+        
+        let mapColliders = [];
+        
+        function generateCollidersMap() {
+            mapColliders = [];
+            
+            $('.active').each(function() {
+                let y = $(this).offset().top-50;
+                let x = $(this).offset().left;
+                let obj = {"x":x, "y":y};
+                mapColliders.push(obj);
+            });
+            console.log(mapColliders);
+        }
+        
+        let mapModifiers = [];
+        
+        function generateModifiersMap() {
+            mapModifiers = [];
+            
+            $('.active2').each(function() {
+                let y = $(this).offset().top-50;
+                let x = $(this).offset().left;
+                let mod = $(this).data('courage');
+                console.log(mod);
+                let obj = {"x":x, "y":y, "mod":mod};
+                mapModifiers.push(obj);
+            });
+            console.log(mapModifiers);
+        }
+        
+        $('#generateColliders').on("click",function(e) {
+                e.preventDefault();
+                generateCollidersMap();
+        });
+        
+        $('#generateModifiers').on("click",function(e) {
+                e.preventDefault();
+                generateModifiersMap();
+        });
+    
+    }
+    
     // Character position
     let curPosX = 0;
     let curPosY = 0;
@@ -128,6 +219,8 @@
 
     // Character move boolean
     let canMove = true;
+    let canMoveX = true;
+    let canMoveY = true;
     
     // Window scroll position indicators
     let currViewX = 1;
@@ -154,7 +247,10 @@
     myWall.classList.add('wall');
     
     // Define cells that are off limits
-    let colliderCells = [ {x:64,y:64},{x:128,y:128} ]
+    let colliderCells2 = [ {x:64,y:128},{x:128,y:128} ]
+
+
+    let colliderCells=[{"x":224,"y":0},{"x":288,"y":0},{"x":0,"y":32},{"x":32,"y":32},{"x":64,"y":32},{"x":96,"y":32},{"x":128,"y":32},{"x":160,"y":32},{"x":224,"y":32},{"x":288,"y":32},{"x":224,"y":64},{"x":288,"y":64},{"x":32,"y":96},{"x":64,"y":96},{"x":96,"y":96},{"x":128,"y":96},{"x":160,"y":96},{"x":192,"y":96},{"x":224,"y":96},{"x":288,"y":96},{"x":288,"y":128},{"x":0,"y":160},{"x":32,"y":160},{"x":64,"y":160},{"x":96,"y":160},{"x":128,"y":160},{"x":160,"y":160},{"x":192,"y":160},{"x":224,"y":160},{"x":256,"y":160},{"x":288,"y":160}]
     
 
     // Character move controls
@@ -164,6 +260,12 @@
             $(window).scrollLeft(0);
             $(window).scrollTop(0);
         },50)
+        
+        // Build Mode controls
+        $('#mapMode').on("click",function(e) {
+            e.preventDefault();
+            mapModeInit();
+        });
         
         // Setup map controls
         $('#mapOverlay').hide();    
@@ -248,17 +350,32 @@
                 } else {
                     newPosY = curPosY;
                 }
+                
                 console.log(newPosX);
                 console.log(newPosY);
+                
+                var isTrue = true;
                 for (let i=0; i<colliderCells.length; i++) {
+                    // Test coordinates
                     if (colliderCells[i].x == newPosX && colliderCells[i].y == newPosY) {
-                        console.log("false");
-                        return false;
-                    } else {
-                        console.log("true");
-                        return true;
-                    }
+                        console.log("collision!");
+                        isTrue = false;
+                    } 
                 }
+                return isTrue;
+                //
+                //if (colliderCells[i].x == newPosX) {
+                //    canMoveX = false;
+                //}
+                //
+                //if (colliderCells[i].y == newPosY) {
+                //    canMoveY = false;
+                //}
+                //
+                //if (canMoveY == false && canMoveX == false) {
+                //    
+                //}
+                
             }
             
     		// Move character    

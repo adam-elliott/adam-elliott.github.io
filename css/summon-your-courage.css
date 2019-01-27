@@ -249,10 +249,28 @@ body {
 	background: url('../images/treePine.png');
 }
 
+.house {
+	background-image:url('../images/houseGeneric.png');
+	width:96px;
+	height:64px;
+	position:absolute;
+}
+
+#home {
+	width:96px;
+	height:96px;
+	position:absolute;
+	left:32px;
+	top:0px;
+	background-image:url('../images/houseBlue.png')
+}
+
 .modifier {
 	background-color: yellow;
 	background: url('../images/hotchocolate.png')
 }
+
+.
 
 #viewGuide {
 	margin: 0 25px;

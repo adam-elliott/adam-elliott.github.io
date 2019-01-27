@@ -149,7 +149,50 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
+	background-image: url('../images/grass.png');
 }
+
+#splash {
+	width: 800px;
+	margin:0 auto;
+	padding: 50px;
+}
+
+#splash h1 {
+	font-family: 'Press Start 2P', cursive;
+	font-size:36px;
+	margin-bottom:16px;
+	text-align:center;
+	margin: 16px auto;
+	color: yellow;
+}
+
+#splash p{
+	font-family: Monospace;
+	font-size:16px;
+	margin-bottom: 14px;
+	text-align:center;
+	margin: 30px auto;
+	width: 750px;
+	color: white;
+	line-height: 20px;
+}
+
+#splash img{
+	text-align: center;
+	margin: 30px auto;
+	display: block;
+}
+
+#splash button{
+	margin: 30px auto;
+	text-align: center;
+	display: block;
+	padding: 20px 90px;
+	color: yellow;
+	font-family: 'Press Start 2P', cursive;
+}
+
 
 #hud {
 	position: fixed;

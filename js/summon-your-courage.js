@@ -134,7 +134,7 @@ let curCourage = 100;
 let curInterval = 0;
 
 // Speed at which courage drops
-let dropSpeed = -10;
+let dropSpeed = -5;
 
 // Speed at which courage rises;
 let riseSpeed = 10;

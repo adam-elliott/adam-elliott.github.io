@@ -39,9 +39,10 @@
         #map {
             width:3200px;
             height:3200px;
-            /*background:url(images/grid.png);*/
+            background:url(images/grass.png);
             position:relative;
             margin-top:50px;
+            
         }
         
         #character {
@@ -94,6 +95,10 @@
             height:32px;
             position:absolute;
             background-color:grey;
+        }
+        
+        .wall {
+            background:url('images/stone.png')
         }
         
         .item {
@@ -616,6 +621,7 @@
                         // Character movement
                         if (curPosX >= charSize) {
                             curPosX -= charSize;
+                            $('#character').css("background","url(images/WlkLft1.png)");
                             $('#character').animate({
                                 left: curPosX
                             }, animSpeed, function() {
@@ -645,6 +651,7 @@
                         // Character movement
                         if (curPosY >= charSize) {
                         curPosY -= charSize;
+                        $('#character').css("background","url(images/WlkFwd1.png)");
                         $('#character').animate({
                             top: curPosY
                         }, animSpeed, function() {
@@ -675,6 +682,7 @@
                         // Character movement
                         if (curPosX >= 0) {
                             curPosX += charSize;
+                            $('#character').css("background","url(images/WlkRgt1.png)");
                             $('#character').animate({
                                 left: curPosX
                             }, animSpeed, function() {
@@ -705,6 +713,7 @@
                         // Character movement
                         if (curPosX >= 0) {
                         curPosY += charSize;
+                        $('#character').css("background","url(images/WlkBk1.png)");
                         $('#character').animate({
                             top: curPosY
                         }, animSpeed, function() {

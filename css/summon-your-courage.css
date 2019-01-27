@@ -1,0 +1,310 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+	display: block
+}
+
+body {
+	line-height: 1
+}
+
+ol,
+ul {
+	list-style: none
+}
+
+blockquote,
+q {
+	quotes: none
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+	content: '';
+	content: none
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0
+}
+
+button {
+	display: inline-block;
+	border: none;
+	padding: .25rem 1rem;
+	margin: 0;
+	text-decoration: none;
+	background: #0069ed;
+	color: #fff;
+	font-family: sans-serif;
+	font-size: 1rem;
+	cursor: pointer;
+	text-align: center;
+	transition: background 250ms ease-in-out, transform 150ms ease;
+	-webkit-appearance: none;
+	-moz-appearance: none
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#hud {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 6;
+	height: 50px;
+	padding: 15px 15px;
+	box-sizing: border-box;
+	font-size: 20px;
+	font-family: Poppins;
+	background-color: rgba(255, 255, 255, 1);
+	box-shadow: 5px 5px 15px rgba(25, 25, 25, .3);
+}
+
+#map {
+	width: 3200px;
+	height: 3200px;
+	background: url('../images/grass.png');
+	position: relative;
+	margin-top: 50px;
+
+}
+
+#character {
+	width: 128px;
+	height: 128px;
+	background-color: red;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url('../images/character.png');
+}
+
+#hud h1 {
+	float: left;
+	font-family: 'Press Start 2P', cursive;
+}
+
+#courageMeter {
+	width: 300px;
+	height: 20px;
+	border: 1px solid grey;
+	float: right
+}
+
+#courage {
+	background-color: red;
+	height: 20px;
+}
+
+.cell {
+	height: 32px;
+	width: 32px;
+	float: left;
+	border: 1px solid blue;
+	box-sizing: border-box;
+	background-color: #ffffff;
+	z-index: 10000;
+}
+
+.active {
+	background-color: blue;
+}
+
+.active2 {
+	background-color: green;
+}
+
+.home {
+	background-color: green;
+}
+
+.wall,
+.item,
+.modifier {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	background-color: grey;
+}
+
+.wall {
+	background: url('../images/stone.png')
+}
+
+.item {
+	background-color: green;
+}
+
+.modifier {
+	background-color: yellow;
+	background: url('../images/hotchocolate.png')
+}
+
+#viewGuide {
+	margin: 0 25px;
+}
+
+i {
+	margin: 5px;
+}
+
+#mapOverlay {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, .9);
+	z-index: 1000;
+}
+
+#viewGuide,
+#mapMode,
+#generateColliders,
+#generateModifiers {
+	display: none;
+}
+
+#console {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 70px;
+	height: 20px;
+	padding: 4px 10px;
+	font-size: 10px;
+	font-family: monospace;
+	box-sizing: border-box;
+	box-shadow: -5px -5px 15px rgba(25, 25, 25, .3);
+	z-index: 1000;
+	background-color: #fff;
+	color: green;
+}
+
+#inventory {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 70px;
+	padding: 10px;
+	font-size: 10px;
+	font-family: monospace;
+	box-sizing: border-box;
+	border-top: 1px solid grey;
+	z-index: 1000;
+	background-color: #fff;
+}
+
+#invBag,
+#invHome {
+	min-width: 50px;
+	margin-right: 20px;
+	display: inline-block;
+}

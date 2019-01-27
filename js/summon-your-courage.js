@@ -91,8 +91,9 @@ let curItems = {
 		"isCollected": false,
 		"isHome": false
 	},
-	"school": {
+	"report card": {
 		"isCollected": false,
+		
 		"isHome": false
 	},
 	"store": {
@@ -104,6 +105,7 @@ let curItems = {
 		"isHome": false
 	}
 }
+
 
 // Character size
 let charSize = 32;
@@ -134,7 +136,7 @@ let curCourage = 100;
 let curInterval = 0;
 
 // Speed at which courage drops
-let dropSpeed = -5;
+let dropSpeed = -4;
 
 // Speed at which courage rises;
 let riseSpeed = 10;
@@ -179,11 +181,11 @@ let modifierCells = [{
 	"mod": "5"
 }];
 let itemCells = [{
-	"x": 960,
-	"y": 128,
-	"item": "school",
+	"x": 640,
+	"y": 1088,
+	"item": "report card",
 	"isFound": false,
-	"img": "images/school.png"
+	"img": "images/homework.png"
 }, {
 	"x": 96,
 	"y": 288,
@@ -195,16 +197,16 @@ let itemCells = [{
 	"y": 736,
 	"item": "homework",
 	"isFound": false,
-	"img": "images/homework.png"
+	"img": "images/bag.png"
 }, {
 	"x": 1344,
 	"y": 1120,
 	"item": "store",
 	"isFound": false,
-	"img": "images/store.png"
+	"img": "images/in.png"
 }, {
-	"x": 384,
-	"y": 1152,
+	"x": 1696,
+	"y": 160,
 	"item": "milk",
 	"isFound": false,
 	"img": "images/milk.png"
@@ -402,7 +404,7 @@ $(document).ready(function() {
 					if (curItems[key].isCollected == true) {
 						curItems[key].isHome = true;
 						//console.log("you brought it home!");
-						$('#console').html('You brought home a ' + key + "! Your courage will now last longer!");
+						$('#console').html('You brought home ' + key + "! Your courage will now last longer!");
 						$('#invHome').append($('#invBag').html())
 						$('#invBag').html("");
 						//console.log(curItems[key]);

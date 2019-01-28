@@ -324,7 +324,7 @@ i {
 }
 
 #deathWall {
-	background: url('../images/deathWall.png') left top repeat-y ;
+	background: url('../images/deathwall.png') left top repeat-y ;
 	background-size:cover;
 }
 

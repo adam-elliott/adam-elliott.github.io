@@ -742,7 +742,7 @@ $(document).ready(function() {
 
 					// Window scroll
 					if (isLocked == false) {
-					if ((curPosY - window.scrollY) < (window.innerHeight / 2)) {
+					if ((curPosY - window.scrollY) < (window.innerHeight / 1.5)) {
 						isLocked = true;
 						let curView = window.scrollY;
 						let newView = curView - (window.innerHeight / 3);
@@ -816,7 +816,7 @@ $(document).ready(function() {
 
 					// Window scroll
 					if (isLocked == false) {
-						if ((curPosY - window.scrollY) > (window.innerHeight / 2)) {
+						if ((curPosY - window.scrollY) > (window.innerHeight / 1.5)) {
 							let curView = window.scrollY;
 							isLocked = true;
 							let newView = curView + (window.innerHeight / 3);

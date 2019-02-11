@@ -143,6 +143,7 @@ button {
 	transition: background 250ms ease-in-out, transform 150ms ease;
 	-webkit-appearance: none;
 	-moz-appearance: none
+	touch-action: manipulation;
 }
 
 body {
@@ -150,6 +151,12 @@ body {
 	padding: 0;
 	overflow: hidden;
 	background: url('../images/grass.png');
+}
+
+body.game, #map {
+	touch-action: none;
+	overflow:hidden !important;
+	position: absolute;
 }
 
 #splash {
@@ -194,12 +201,13 @@ body {
 
 #newGame h3 {
 	font-size:26px;
+	margin-top:40px;
 }
 
 #newGame p{
 	font-family: Monospace;
 	font-size:14px;
-	margin:45px auto;
+	margin:25px auto;
 	text-align:center;
 	color: white;
 	line-height: normal;
@@ -426,7 +434,7 @@ i {
 	position: fixed;
 	left: 0;
 	right: 0;
-	bottom: 70px;
+	bottom: 60px;
 	height:30px;
 	padding: 4px 10px;
 	font-size: 10px;
@@ -443,7 +451,7 @@ i {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	height: 70px;
+	height: 60px;
 	padding: 10px;
 	font-size: 10px;
 	font-family: monospace;
@@ -464,4 +472,23 @@ i {
 @keyframes crying {
 	from {background:url('../images/WlkCry1.png')}
 	to {background:url('../images/WlkCry2.png')}
+}
+
+
+	#mobileControls {
+		display:block;
+		height:50px;
+		width:100%;
+		background-color:red;
+		position:fixed;
+		bottom:100px;
+		z-index:999;
+		display:flex;
+		align-items: stretch	;
+	display:none;
+	}
+.control {
+	margin:0 2px;
+	padding:12px;
+	flex:1;
 }

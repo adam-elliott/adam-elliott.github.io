@@ -320,6 +320,19 @@ $('#audioToggle').click(function(){
 
 // Character move controls
 $(document).ready(function() {
+	// window size
+	var size = [480,440];
+	$(window).resize(function(){
+		window.resizeTo(size[0],size[1]);
+	});
+	
+	// Disable scrolling.
+	$(document).bind(
+      'touchmove',
+          function(e) {
+            e.preventDefault();
+          }
+	);
 	
 	// start game
 	$('#startGame').click(function(){
@@ -328,6 +341,23 @@ $(document).ready(function() {
 
 	// Set welcome message on console.
 	$('#console').html("Welcome! Your courage level will drop as you explore the map and bring items home. Return home to rebuild courage!");
+	
+	// Controls
+	$('#controlLeft').on('click press', function(){
+		jQuery.event.trigger({ type : 'keydown', which : 37 });
+	});
+	
+	$('#controlRight').on('click press', function(){
+		jQuery.event.trigger({ type : 'keydown', which : 39 });
+	});
+	
+	$('#controlUp').on('click press', function(){
+		jQuery.event.trigger({ type : 'keydown', which : 38 });
+	});
+	
+	$('#controlDown').on('click press', function(){
+		jQuery.event.trigger({ type : 'keydown', which : 40 });
+	});
 	
 	setTimeout(function() {
 		// Reset window scroll position

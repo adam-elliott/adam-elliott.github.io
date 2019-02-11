@@ -149,7 +149,6 @@ body {
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
-	background-image: url('../images/grass.png');
 }
 
 #splash {
@@ -243,6 +242,17 @@ body {
 	background: url('../images/grass.png');
 	position: absolute;
 	top: 60px;
+	
+}
+
+#map {
+	animation: grassCycle 300s infinite;
+}
+
+@keyframes grassCycle {
+	0% {background: url('../images/grass.png');}
+	50% {background: url('../images/grassdead.png');}
+	100% {background: url('../images/grass.png');}
 }
 
 #editor {
@@ -306,7 +316,8 @@ body {
 .wall,
 .item,
 .modifier,
-.tree {
+.tree,
+.enemy {
 	width: 32px;
 	height: 32px;
 	position: absolute;
@@ -325,11 +336,25 @@ body {
 	background: url('../images/treePine.png');
 }
 
+.enemy {
+	background:url('../images/enemy2.gif');
+}
+
+
+
 .house {
 	background-image:url('../images/houseGeneric.png');
 	width:96px;
 	height:64px;
 	position:absolute;
+}
+
+.house:nth-child(2n) {
+	background-image:url('../images/houseGrandmaGreen.png');
+}
+
+.house:nth-child(3n) {
+	background-image:url('../images/houseGrandmaBrown.png');
 }
 
 #home {
@@ -433,4 +458,9 @@ i {
 	min-width: 50px;
 	margin-right: 20px;
 	display: inline-block;
+}
+
+@keyframes crying {
+	from {background:url('../images/WlkCry1.png')}
+	to {background:url('../images/WlkCry2.png')}
 }

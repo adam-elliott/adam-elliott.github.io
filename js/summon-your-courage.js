@@ -102,6 +102,10 @@ let curItems = {
 	"milk": {
 		"isCollected": false,
 		"isHome": false
+	},
+	"rocks": {
+		"isCollected": false,
+		"isHome": false
 	}
 }
 
@@ -155,6 +159,7 @@ let houseCells = [{"x":1344,"y":96},{"x":608,"y":512},{"x":800,"y":512},{"x":992
 let houseColliders = [{"x":1344,"y":96},{"x":1376,"y":96},{"x":1408,"y":96},{"x":1344,"y":128},{"x":1408,"y":128},{"x":608,"y":512},{"x":640,"y":512},{"x":672,"y":512},{"x":800,"y":512},{"x":832,"y":512},{"x":864,"y":512},{"x":992,"y":512},{"x":1024,"y":512},{"x":1056,"y":512},{"x":1184,"y":512},{"x":1216,"y":512},{"x":1248,"y":512},{"x":608,"y":544},{"x":672,"y":544},{"x":800,"y":544},{"x":864,"y":544},{"x":992,"y":544},{"x":1056,"y":544},{"x":1184,"y":544},{"x":1248,"y":544},{"x":704,"y":640},{"x":736,"y":640},{"x":768,"y":640},{"x":896,"y":640},{"x":928,"y":640},{"x":960,"y":640},{"x":1088,"y":640},{"x":1120,"y":640},{"x":1152,"y":640},{"x":704,"y":672},{"x":768,"y":672},{"x":896,"y":672},{"x":960,"y":672},{"x":1088,"y":672},{"x":1152,"y":672},{"x":32,"y":928},{"x":64,"y":928},{"x":96,"y":928},{"x":160,"y":928},{"x":192,"y":928},{"x":224,"y":928},{"x":288,"y":928},{"x":320,"y":928},{"x":352,"y":928},{"x":32,"y":960},{"x":96,"y":960},{"x":160,"y":960},{"x":224,"y":960},{"x":288,"y":960},{"x":352,"y":960},{"x":288,"y":1056},{"x":320,"y":1056},{"x":352,"y":1056},{"x":416,"y":1056},{"x":448,"y":1056},{"x":480,"y":1056},{"x":544,"y":1056},{"x":576,"y":1056},{"x":608,"y":1056},{"x":288,"y":1088},{"x":352,"y":1088},{"x":416,"y":1088},{"x":480,"y":1088},{"x":544,"y":1088},{"x":608,"y":1088}];
 let modifierCells = 
 [{"x":384,"y":64,"mod":"10"},{"x":576,"y":64,"mod":"40"},{"x":1184,"y":64,"mod":"10"},{"x":1856,"y":64,"mod":"40"},{"x":1376,"y":128,"mod":"25"},{"x":512,"y":320,"mod":"50"},{"x":1184,"y":320,"mod":"30"},{"x":32,"y":544,"mod":"50"},{"x":1024,"y":544,"mod":"50"},{"x":1600,"y":704,"mod":"30"},{"x":480,"y":736,"mod":"10"},{"x":1504,"y":768,"mod":"60"},{"x":1344,"y":896,"mod":"20"},{"x":1728,"y":896,"mod":"10"},{"x":320,"y":960,"mod":"20"},{"x":576,"y":1088,"mod":"5"},{"x":64,"y":1184,"mod":"20"},{"x":1216,"y":1184,"mod":"60"}];
+let enemyCells = [{"x":1216,"y":64,"mod":"-10"},{"x":1824,"y":64,"mod":"-10"},{"x":576,"y":96,"mod":"-10"},{"x":1184,"y":96,"mod":"-10"},{"x":1216,"y":96,"mod":"-10"},{"x":1824,"y":96,"mod":"-10"},{"x":1856,"y":96,"mod":"-10"},{"x":1184,"y":128,"mod":"-10"},{"x":1184,"y":160,"mod":"-10"},{"x":1344,"y":160,"mod":"-10"},{"x":1408,"y":160,"mod":"-10"},{"x":1184,"y":192,"mod":"-10"},{"x":1344,"y":192,"mod":"-10"},{"x":1408,"y":192,"mod":"-10"},{"x":1184,"y":224,"mod":"-10"},{"x":1344,"y":224,"mod":"-10"},{"x":1408,"y":224,"mod":"-10"},{"x":1184,"y":256,"mod":"-10"},{"x":512,"y":288,"mod":"-10"},{"x":544,"y":288,"mod":"-10"},{"x":1184,"y":288,"mod":"-10"},{"x":1216,"y":288,"mod":"-10"},{"x":544,"y":320,"mod":"-10"},{"x":1216,"y":320,"mod":"-10"},{"x":1152,"y":352,"mod":"-10"},{"x":1184,"y":352,"mod":"-10"},{"x":1216,"y":352,"mod":"-10"},{"x":288,"y":384,"mod":"-10"},{"x":1024,"y":384,"mod":"-10"},{"x":96,"y":416,"mod":"-10"},{"x":1600,"y":672,"mod":"-10"},{"x":1632,"y":672,"mod":"-10"},{"x":448,"y":704,"mod":"-10"},{"x":480,"y":704,"mod":"-10"},{"x":512,"y":704,"mod":"-10"},{"x":1248,"y":704,"mod":"-10"},{"x":1280,"y":704,"mod":"-10"},{"x":1312,"y":704,"mod":"-10"},{"x":1632,"y":704,"mod":"-10"},{"x":1248,"y":736,"mod":"-10"},{"x":1312,"y":736,"mod":"-10"},{"x":1632,"y":736,"mod":"-10"},{"x":672,"y":768,"mod":"-10"},{"x":32,"y":800,"mod":"-10"},{"x":64,"y":800,"mod":"-10"},{"x":128,"y":800,"mod":"-10"},{"x":672,"y":832,"mod":"-10"},{"x":1696,"y":864,"mod":"-10"},{"x":1728,"y":864,"mod":"-10"},{"x":672,"y":896,"mod":"-10"},{"x":1376,"y":896,"mod":"-10"},{"x":1696,"y":896,"mod":"-10"},{"x":992,"y":928,"mod":"-10"},{"x":1344,"y":928,"mod":"-10"},{"x":1376,"y":928,"mod":"-10"},{"x":672,"y":960,"mod":"-10"},{"x":672,"y":1024,"mod":"-10"},{"x":1312,"y":1088,"mod":"-10"},{"x":1344,"y":1088,"mod":"-10"},{"x":1376,"y":1088,"mod":"-10"},{"x":1312,"y":1120,"mod":"-10"},{"x":1376,"y":1120,"mod":"-10"},{"x":64,"y":1152,"mod":"-10"},{"x":96,"y":1152,"mod":"-10"},{"x":1184,"y":1152,"mod":"-10"},{"x":1216,"y":1152,"mod":"-10"},{"x":96,"y":1184,"mod":"-10"},{"x":1184,"y":1184,"mod":"-10"}];
 let itemCells = [{
 	"x": 640,
 	"y": 1088,
@@ -185,6 +190,12 @@ let itemCells = [{
 	"item": "milk",
 	"isFound": false,
 	"img": "images/milk.png"
+}, {
+	"x": 768,
+	"y": 224,
+	"item": "rocks",
+	"isFound": false,
+	"img": "images/rocks.png"
 }];
 
 
@@ -242,6 +253,18 @@ function loadModifiers() {
 		myCell.classList.add('modifier');
 		myCell.style.left = modifierCells[i].x + "px";
 		myCell.style.top = modifierCells[i].y + "px";
+		//myCell.style.border = "1px solid red";
+		$('#guide').append(myCell);
+	}
+}
+
+function loadEnemies() {
+	$('.enemy').remove();
+	for (let i = 0; i < enemyCells.length; i++) {
+		let myCell = document.createElement('div');
+		myCell.classList.add('enemy');
+		myCell.style.left = enemyCells[i].x + "px";
+		myCell.style.top = enemyCells[i].y + "px";
 		//myCell.style.border = "1px solid red";
 		$('#guide').append(myCell);
 	}
@@ -317,6 +340,7 @@ $(document).ready(function() {
 		loadItems();
 		loadTrees();
 		loadHouses();
+		loadEnemies();
 		$('#guide').fadeIn();
 		
 		// Preload images
@@ -429,27 +453,16 @@ $(document).ready(function() {
 			// Controls drop speed
 			curInterval = riseSpeed;
 			
-			// deathWall kill
-			//if ( $("#deathWall").length != 0 ) {
-			//	$("#deathWall").fadeOut(500);
-			//	$("#deathWall").remove();
-			//}
-			
 			for (key in curItems) {
 				if (curItems.hasOwnProperty(key)) {
 					if (curItems[key].isCollected == true) {
 						curItems[key].isHome = true;
-						//console.log("you brought it home!");
 						$('#console').html('You brought home ' + key + "! Your courage will now last longer!");
 						$('#invHome').append($('#invBag').html())
 						$('#invBag').html("");
-						//console.log(curItems[key]);
 					}
 				}
 			}
-			// Allow player to access map
-			//$("#viewGuide").fadeIn();
-			//$('body').css('zoom','.25');
 		} else {
 			// Controls rise speed
 			curInterval = dropSpeed;
@@ -492,15 +505,30 @@ $(document).ready(function() {
 				deathWall.style.transition = ".125s ease all";
 				document.getElementById('map').appendChild(deathWall);
 				
+				
+				
 				let deathWallInterval = setInterval( function(){
 					deathWallWidth -= 5;
 					deathWall.style.left = deathWallWidth+"vw";
+					
+					$('#character').css("animation", "crying .5s infinite");
 
 					if ( $("#deathWall").length != 0 ) {
 						if (curPosX == 64 && curPosY == 64) {
-							$("#deathWall").fadeOut(500);
-							$("#deathWall").remove();
+							deathWallWidth = 100;
+							$("#deathWall").fadeOut(500, function(){ $("#deathWall").remove(); });
+							
 							clearInterval(deathWallInterval);
+							$('#character').css("background", "url(images/WlkBk1.png)");
+							$('#character').css("animation", "none");
+							}
+							
+						if (curCourage >= 1) {
+							deathWallWidth = 100;
+							$("#deathWall").fadeOut(500, function(){ $("#deathWall").remove(); });
+							clearInterval(deathWallInterval);
+							$('#character').css("background", "url(images/WlkBk1.png)");
+							$('#character').css("animation", "none");
 							}
 						
 						if (curPosX >= ($('#deathWall').offset().left+50)) {
@@ -625,6 +653,33 @@ $(document).ready(function() {
 				}
 			}
 		}
+		
+		// Handle modifiers
+		function handleEnemies() {
+			for (let i = 0; i < enemyCells.length; i++) {
+				// Test coordinates
+				if (enemyCells[i].x == curPosX && enemyCells[i].y == curPosY) {
+					curCourage += parseInt(enemyCells[i].mod);
+					modPoints += parseInt(enemyCells[i].mod);
+					$('#invMod').html(modPoints);
+					$('#console').html("You've been attacked! You lost " + enemyCells[i].mod + " courage!")
+					//console.log('mod did happen');
+					$("#courage").animate(function() {
+						width: curCourage
+					}, animSpeed, function() {
+						// Animation complete.
+						$('#console').html("You've been attacked! You lost " + enemyCells[i].mod + " courage!")
+						//console.log('mod did happen, current courage:' + curCourage);
+
+						//console.log(modifierCells);
+						enemyCells.splice(i, 1);
+						//console.log(modifierCells);
+
+						loadEnemies();
+					});
+				}
+			}
+		}
 
 
 		// Move character    
@@ -645,6 +700,7 @@ $(document).ready(function() {
 							// Animation complete.
 							checkHome();
 							handleModifiers();
+							handleEnemies();
 						});
 					}
 
@@ -680,6 +736,7 @@ $(document).ready(function() {
 							// Animation complete.
 							checkHome();
 							handleModifiers();
+							handleEnemies();
 						});
 					}
 
@@ -716,6 +773,7 @@ $(document).ready(function() {
 							// Animation complete.
 							checkHome();
 							handleModifiers();
+							handleEnemies();
 						});
 					}
 
@@ -752,6 +810,7 @@ $(document).ready(function() {
 							// Animation complete.
 							checkHome();
 							handleModifiers();
+							handleEnemies();
 						});
 					}
 

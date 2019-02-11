@@ -742,10 +742,10 @@ $(document).ready(function() {
 
 					// Window scroll
 					if (isLocked == false) {
-					if ((curPosY - window.scrollY) < (window.innerHeight / 1.5)) {
+					if ((curPosY - window.scrollY) < (window.innerHeight / 2)) {
 						isLocked = true;
 						let curView = window.scrollY;
-						let newView = curView - (window.innerHeight / 3);
+						let newView = curView - ((window.innerHeight / 3) - 50);
 						$('html, body').animate({
 							"scrollTop": newView
 						}, 500, function() { isLocked = false });
@@ -816,10 +816,10 @@ $(document).ready(function() {
 
 					// Window scroll
 					if (isLocked == false) {
-						if ((curPosY - window.scrollY) > (window.innerHeight / 1.5)) {
+						if ((curPosY - window.scrollY) > (window.innerHeight / 2)) {
 							let curView = window.scrollY;
 							isLocked = true;
-							let newView = curView + (window.innerHeight / 3);
+							let newView = curView + ((window.innerHeight / 3) + 50);
 							$('html, body').animate({
 								"scrollTop": newView
 							}, 500, function() { isLocked = false });

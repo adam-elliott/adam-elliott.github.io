@@ -241,7 +241,7 @@ body {
 	width: 3200px;
 	height: 3200px;
 	background: url('../images/grass.png');
-	position: fixed;
+	position: absolute;
 	top: 60px;
 }
 

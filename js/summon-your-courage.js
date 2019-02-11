@@ -297,6 +297,7 @@ $('#audioToggle').click(function(){
 
 // Character move controls
 $(document).ready(function() {
+	
 	// start game
 	$('#startGame').click(function(){
 		$('#newGame').fadeOut();
@@ -346,7 +347,7 @@ $(document).ready(function() {
 		gameAudio.src = "audio/gametime.oggvorbis.ogg";
 		gameAudio.load();
 		document.getElementsByTagName('body')[0].appendChild(gameAudio);
-	}, 100);
+	}, 200);
 
 	// Build Mode controls
 	$('#mapMode').on("click", function(e) {

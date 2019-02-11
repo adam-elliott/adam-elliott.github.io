@@ -178,9 +178,13 @@ body {
 	line-height: 20px;
 }
 
+#newGame h3 {
+	font-size:26px;
+}
+
 #newGame p{
 	font-family: Monospace;
-	font-size:22px;
+	font-size:14px;
 	margin:45px auto;
 	text-align:center;
 	color: white;

@@ -178,7 +178,7 @@ let itemCells = [{
 	"y": 1120,
 	"item": "store",
 	"isFound": false,
-	"img": "images/in.png"
+	"img": "images/ingredients.png"
 }, {
 	"x": 1696,
 	"y": 160,
@@ -261,6 +261,39 @@ function loadTrees() {
 
 // Add audio element
 let gameAudio = document.createElement("audio");
+let playGameAudio = true;
+
+
+function gameAudioInit() {
+	if (playGameAudio == true) {
+		var promise = document.querySelector('audio').play();
+		if (promise !== undefined) {
+			promise.then(_ => {
+				// Autoplay started!
+			}).catch(error => {
+				// Autoplay was prevented.
+				// Show a "Play" button so that user can start playback.
+			});
+		}
+	}
+}
+
+function toggleAudio() {
+	if (playGameAudio == true) {
+		playGameAudio = false;
+		gameAudio.pause();
+		$('#audioToggle').html('<i class="fas fa-volume-up"></i>');
+	} else {
+		playGameAudio = true;
+		gameAudioInit();
+		$('#audioToggle').html('<i class="fas fa-volume-mute"></i>');
+	}
+	
+}
+
+$('#audioToggle').click(function(){
+	toggleAudio();
+});
 
 // Character move controls
 $(document).ready(function() {
@@ -284,6 +317,28 @@ $(document).ready(function() {
 		loadTrees();
 		loadHouses();
 		$('#guide').fadeIn();
+		
+		// Preload images
+		var images = [];
+		function preload() {
+			for (var i = 0; i < arguments.length; i++) {
+				images[i] = new Image();
+				images[i].src = preload.arguments[i];
+			}
+		}
+		
+		//-- usage --//
+		preload(
+			"images/WlkFwd1.png",
+			"images/WlkFwd2.png",
+			"images/WlkLft1.png",
+			"images/WlkLft2.png",
+			"images/WlkRgt1.png",
+			"images/WlkRht2.png",
+			"images/WlkBk1.png",
+			"images/WlkBk2.png",
+			"images/deathwall.png"
+		)
 
 		// Add audio track
 		gameAudio.setAttribute("type", "audio/ogg");
@@ -420,29 +475,8 @@ $(document).ready(function() {
 	
 	}
 
-	$(document).on("keydown", function(e) {
-
-		// Optional Setting : Courage decreases with moves
-		//curCourage -= 1;
-		//$('#courage').css('width',curCourage +"%")
-
-		//// Loser message    
-		//if (curCourage <= -1) {
-		//	var promise = document.querySelector('audio').pause();
-		//	if (promise !== undefined) {
-		//		promise.then(_ => {
-		//			// Autoplay started!
-		//		}).catch(error => {
-		//			// Autoplay was prevented.
-		//			// Show a "Play" button so that user can start playback.
-		//		});
-		//	}
-		//	$(document).off();
-		//	$('#character').fadeOut();
-		//	$('#console').html("Game over! You lost.");
-		//}
-		
-		// Alternate ending
+	$(document).on("keydown", function(e) {	
+		// Deathwall ending
 		if (curCourage <= -1) {
 			if ( $("#deathWall").length == 0 ) {
 				let deathWallWidth = 100;
@@ -491,15 +525,7 @@ $(document).ready(function() {
 		}
 
 		// Play game audio
-		var promise = document.querySelector('audio').play();
-		if (promise !== undefined) {
-			promise.then(_ => {
-				// Autoplay started!
-			}).catch(error => {
-				// Autoplay was prevented.
-				// Show a "Play" button so that user can start playback.
-			});
-		}
+		gameAudioInit();
 
 		// Test if character can move to destination cell
 		function checkMove(n) {

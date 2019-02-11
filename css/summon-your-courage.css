@@ -158,6 +158,20 @@ body {
 	padding: 50px;
 }
 
+#audioToggle {
+	position:fixed;
+	top:10px;
+	right:10px;
+	width:30px;
+	height:30px;
+	opacity:0.6;
+}
+
+#audioToggle:hover {
+	cursor:pointer;
+	opacity: 1;
+}
+
 #newGame h3, #splash h1 {
 	font-family: 'Press Start 2P', cursive;
 	font-size:36px;

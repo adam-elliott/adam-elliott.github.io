@@ -46,6 +46,7 @@ function mapModeInit() {
 	});
 
 	let mapColliders = [];
+	//
 
 	function generateCollidersMap() {
 		mapColliders = [];

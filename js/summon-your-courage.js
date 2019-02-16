@@ -1,4 +1,4 @@
-let devMode = true;
+let devMode = false;
 let iAgree = true;
 
 if (devMode == true) {

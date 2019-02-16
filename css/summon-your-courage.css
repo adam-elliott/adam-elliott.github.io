@@ -146,10 +146,9 @@ button {
 	touch-action: manipulation;
 }
 
-body {
+body.splash {
 	margin: 0;
 	padding: 0;
-	overflow: hidden;
 	background: url('../images/grass.png');
 }
 
@@ -157,6 +156,10 @@ body.game, #map {
 	touch-action: none;
 	overflow:hidden !important;
 	position: absolute;
+}
+
+#map {
+	background: url('../images/grass.png');
 }
 
 #splash {
@@ -246,8 +249,8 @@ body.game, #map {
 }
 
 #map, #editor {
-	width: 3200px;
-	height: 3200px;
+	width: 1952px;
+	height: 1370px;
 	background: url('../images/grass.png');
 	position: absolute;
 	top: 60px;
@@ -330,7 +333,6 @@ body.game, #map {
 	width: 32px;
 	height: 32px;
 	position: absolute;
-	background-color: grey;
 }
 
 .wall {
@@ -338,7 +340,7 @@ body.game, #map {
 }
 
 .item {
-	background-color: green;
+	background-color: transparent;
 }
 
 .tree {
@@ -366,13 +368,19 @@ body.game, #map {
 	background-image:url('../images/houseGrandmaBrown.png');
 }
 
-#home {
+#home, #barn {
 	width:96px;
 	height:96px;
 	position:absolute;
 	left:32px;
 	top:0px;
 	background-image:url('../images/houseBlue.png')
+}
+
+#barn {
+	left:1696px;
+	top:704px;
+	background-image:url('../images/barn.png')
 }
 
 .modifier {

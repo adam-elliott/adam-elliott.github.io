@@ -366,9 +366,7 @@ function tripOut() {
 			$(this).css("transform","scale("+ tripScale +")");
 		});
 	},500);
-
-	
-	
+	// end cycle
 	window.setTimeout(function(){
 		clearInterval(tripFilter);
 		clearInterval(tripScaler);
@@ -379,8 +377,8 @@ function tripOut() {
 }
 
 //disclaimer
-	let iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ")
-	if (iAgree == true) {
+let iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ")
+if (iAgree == true) {
 // Character move controls
 $(document).ready(function() {
 	

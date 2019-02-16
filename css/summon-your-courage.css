@@ -154,7 +154,7 @@ body.splash {
 
 body.game, #map {
 	touch-action: none;
-	overflow:hidden !important;
+	overflow:hidden;
 	position: absolute;
 }
 
@@ -499,4 +499,9 @@ i {
 	margin:0 2px;
 	padding:12px;
 	flex:1;
+}
+
+#deathWall {
+	width:100vw;
+	height:100vh;
 }

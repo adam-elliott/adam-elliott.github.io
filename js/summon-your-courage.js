@@ -1,3 +1,23 @@
+let devMode = true;
+let iAgree = true;
+
+if (devMode == true) {
+	setTimeout( function() {
+		iAgree = true;
+		$("#mapOverlay").hide();
+		$("#newGame").hide();
+		$('body').css("overflow","scroll");
+		$('#mapTools').show();
+		$('#mapMode').show();
+	},20)
+	
+	} else {
+		$('#mapTools').hide();
+		iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ")
+
+	}
+
+
 // Map Creation Mode
 function mapModeInit() {
 	$('body').css('overflow', 'scroll');
@@ -377,7 +397,7 @@ function tripOut() {
 }
 
 //disclaimer
-let iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ")
+
 if (iAgree == true) {
 // Character move controls
 $(document).ready(function() {
@@ -614,7 +634,7 @@ $(document).ready(function() {
 				deathWall.style.bottom = 0;
 				deathWall.style.right = 0;
 				deathWall.style.transition = ".125s ease all";
-				document.getElementById('map').appendChild(deathWall);
+				document.getElementById('deatWall').appendChild(deathWall);
 				
 				let deathWallInterval = setInterval( function(){
 					deathWallWidth -= 5;

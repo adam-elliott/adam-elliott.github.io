@@ -9,6 +9,7 @@ if (devMode == true) {
 		$('body').css("overflow","scroll");
 		$('#mapTools').show();
 		$('#mapMode').show();
+		//
 	},20)
 	
 	} else {

@@ -357,18 +357,34 @@ function tripOut() {
 		curColor += 10;
 		$('#guide, #map').css("transition",".25s ease-in-out all");
 		$('#guide, #map').css( "filter","hue-rotate(" + curColor + "deg)" );
-	}, 70);
+	}, 10);
 	// pulsate map object scale
+	let tripScaler = window.setInterval(function(){
+		$('#guide > div').each(function(){
+			let tripScale = (Math.random() * (0.0 - 2.00) + 2.00).toFixed(4)
+			$(this).css("transition",".5s ease-in-out all");
+			$(this).css("transform","scale("+ tripScale +")");
+		});
+	},500);
+
+	
 	
 	window.setTimeout(function(){
 		clearInterval(tripFilter);
+		clearInterval(tripScaler);
 		$('#guide, #map').css( "filter","hue-rotate(0deg)" );
+		$('#guide > div').each(function(){$(this).css("transform","scale(1)");});
 		curCourage = 100;
 	}, 5000);
 }
 
+//disclaimer
+	let iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ")
+	if (iAgree == true) {
 // Character move controls
 $(document).ready(function() {
+	
+	
 	
 	// window size
 	var size = [480,440];
@@ -942,3 +958,7 @@ $(document).ready(function() {
 	});
 
 });
+	} else {
+		alert("Sorry this game was not for you! You will be redirected to the Global Game Jam to find a better match.")
+		window.location.replace("https://globalgamejam.org/2019/games")
+	}

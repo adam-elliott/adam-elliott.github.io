@@ -29,17 +29,153 @@
 	<div id="mapOverlay">
 		<button id="closeGuide">Close Map</button>
     </div>
+	
+	<div id="mapTools">
+			<div id="mapToolsHeader">
+				<h1 class="left">Level Design Tools</h1>
+				<i id="closeMapTools" class="fas fa-times right"></i>
+			</div>
+			<div id="mapToolsPanel">
+				<h3>1. Level Info</h3>
+				<p>Enter the basic information for this level.</p>
+				
+				<form id="mapInputs" class="clear">
+					<label for="levelName" class="left">
+						<p>Level name:</p>
+						<input type="text" id="levelName" name="levelName">
+					</label>
+					<label for="authorName" class="left">
+						<p>Author name:</p>
+						<input type="text" id="authorName" name="authorName">
+					</label>
+				</form>
+				
+				<hr/>
+				<h3>2. Define Map Cells</h3>
+				<p>Level maps require the following cell types to be defined. Toggle the button and click cells on the map to define cells.</p>
+				
+				<h4>Visual Cells</h4>
+				<p>Start by placing visual elements on the map. Later we will define how our character interacts with the underlying cells.</p>
+				
+				<table id="levelItems">
+					<tr>
+						<th>Item</th>
+						
+						<th>Mod</th>
+						<th>Cells</th>
+						<th>Clear</th>
+					</tr>
+					<tr class="mapItem">
+						<td>Wall</td>
+						
+						<td>0</td>
+						<td><button id="setItem" class="setCell" data-type="wall">Define </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="wall">Clear</button></td>
+					</tr>
+					<!--<tr class="mapItem">-->
+					<!--	<td>Home</td>-->
+					<!--	-->
+					<!--	<td>0</td>-->
+					<!--	<td><button id="setItem" class="setCell" data-type="home">Define </button></td>-->
+					<!--	<td><button id="clearItem" class="clearCell" data-map="" data-type="home">Clear </button></td>-->
+					<!--</tr>-->
+					<tr class="mapItem">
+						<td>House</td>
+						
+						<td>0</td>
+						<td><button id="setItem" class="setCell" data-type="house">Define </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="house">Clear </button></td>
+					</tr>
+					<tr class="mapItem">
+						<td>Tree</td>
+						
+						<td>0</td>
+						<td><button id="setItem" class="setCell" data-type="tree">Define </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="tree">Clear </button></td>
+					</tr>
+					<tr class="mapItem">
+						<td>Mod</td>
+						
+						<td>0</td>
+						<td><button id="setItem" class="setCell" data-type="mod">Define </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="mod">Clear </button></td>
+					</tr>					
+					<tr class="mapItem">
+						<td>Enemy</td>
+						
+						<td>0</td>
+						<td><button id="setItem" class="setCell" data-type="enemy">Define </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="enemy">Clear </button></td>
+					</tr>
+				</table>
+				<!--<button id="addLevelItem">Add Item Type</button>-->
+				
+				
+				<hr/>
+				
+				<h4>Goal Cells</h4>
+				<p>The object of the game is to collect items and bring them home. Define where each item is on the map.</p>
+				
+				<table id="levelGoals">
+					<tr>
+						<th>Item</th>
+						<th>Cell</th>
+					</tr>
+					<tr>
+						<td>Item</td>
+						<td><button id="setItem" class="setGoalCell" data-type="dog" data-goal="true">Set Cell</button></td>
+					</tr>
+					
+				</table>
+				<button id="addLevelGoal">Add Goal</button>
+				<hr>
+				
+				<h4>Home Cells</h4>
+				<p>Home cells allow your character to recharge. You can define as many as you like, but you must have a minimum on one.</p>
+				
+				<button class="setCell" id="setHomeCells" data-type="courage" >Define Courage Cells</button>
+				<button class="clearCell" id="clearHomeCells" data-type="courage" >Clear Courage Cells</button>
+				
+				<hr/>
+				<h3>Define Collider Cells</h3>
+				<p>Level maps require the following cell types to be defined. Toggle the button and click cells on the map to define cells.</p>
+				
+				
+				<h4>Collider Cells</h4>
+				<p>Collider cells are cells that your character will not be able to enter.</p>
+				<button class="setCell" id="setColliderCells" data-type="collider" >Define Collider Cells</button>
+				<button class="clearCell" id="clearColliderCells" data-type="home" >Clear Collider Cells</button>
+				
+	
+			
+				<!--<button id="viewGuide">Toggle Map</button>-->
+				<!--<button id="mapMode">Map Build Mode</button>-->
+				<!--<button id="generateColliders">Export Collider Map</button>-->
+				<!--<button id="generateModifiers">Export Modifer Map</button>-->
+				
+				<hr>
+				<h3>Export Level</h3>
+				<p>The final step is to export your level object for game play. I/O is currently under development, but you can view the output in your browser console..</p>
+				<button id="createLevel">Export Level</button>
+				
+			</div>
+		</div>
+	
 	<div id="hud">
+		
+		<div id="loadLevel">
+			<!--<label class="label" for="level">Choose:</label>-->
+			<br/>
+			<select id="levelSel">
+				<option value="js/level/level1.js">Level 1</option>
+				<option value="js/level/level2.js">Level 2</option>
+				<option value="js/level/level3.js">Level 3</option>
+			</select>
+		</div>
+			
 		<h1>Summon Your Courage</h1>
 		<div id="courageMeter">
 			<div id="courage"></div>
-		</div>
-		
-		<div id="mapTools">
-			<button id="viewGuide">Toggle Map</button>
-			<button id="mapMode">Map Build Mode</button>
-			<button id="generateColliders">Export Collider Map</button>
-			<button id="generateModifiers">Export Modifer Map</button>
 		</div>
 		<div id="audioToggle"><i class="fas fa-volume-mute"></i></div>
 	</div>
@@ -60,7 +196,7 @@
 		<div id="invMod"></div>
 	</div>
 	<div id="editor"></div>
-	<div id="deathWall"></div>
+	<div id="deathWallContainer"></div>
 	<div id="map">
 		<div id="home"></div>
 		<div id="barn"></div>
@@ -74,11 +210,13 @@
 <script type="text/javascript" src="js/summon-your-courage.js"></script>
 <script type='text/javascript'>
 window.__lo_site_id = 142372;
-
-	(function() {
-		var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true;
-		wa.src = 'https://d10lpsik1i8c69.cloudfront.net/w.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);
-	  })();
-	</script>
+(function() {
+	var wa = document.createElement('script');
+	wa.type = 'text/javascript';
+	wa.async = true;
+	wa.src = 'https://d10lpsik1i8c69.cloudfront.net/w.js';
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(wa, s);
+})();
+</script>
 </html>

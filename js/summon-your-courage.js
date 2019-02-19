@@ -1,5 +1,8 @@
 let devMode = false;
 let iAgree = true;
+
+let levelTemplate = {};
+
 $(document).ready(function() {
 
 	// devMode Settings
@@ -10,41 +13,227 @@ $(document).ready(function() {
 			$("#mapOverlay").hide();
 			$("#newGame").hide();
 			$('body').css("overflow", "scroll");
+			$('#console').hide();
+			$('#inventory').hide();
 			$('#mapTools').show();
-			$('#mapMode').show();
+			//$('#mapMode').show();
+			dragElement(document.getElementById("mapTools"));
+			mapModeInit();
+			$('#mapTools').css('left','1376px');
+			$('#mapTools').css('top','64px');
+			level = {};
 			//
 		}, 20)
 
 	} else {
 		$('#mapTools').hide();
-		iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ")
-
+		$('#loadLevel').hide();
+		iAgree = confirm("WARNING: This game may potentially trigger seizures for people with photosensitive epilepsy. User discretion is advised. Do you wish to continue? ");
 	}
 	
+	
+
 	// Map Creation Mode
+	$('#hud').on('dblclick', function(){
+		mapModeInit();
+		window.resizeTo(1024, 768);
+	});
+	
 	function mapModeInit() {
+		$(window).off();
+		$('#console, #inventory').hide();
+		$('#editor').css('z-index','100');
+		
+		levelTemplate = {
+				name : "",
+				author : "",
+				courage : [{
+						x : "",
+						y : ""
+					}],			
+				background : "",
+				collisions: [],
+				map: {
+					"wall" : {
+						img: "",
+						cells: []
+						},
+					"house" : {
+						img: "",
+						cells: []
+						},
+					"home" : {
+						img: "",
+						cells: []
+						},
+					"tree" : {
+						img: "",
+						cells: []
+						},
+					"mod" : {
+						img: "",
+						cells: []
+						},
+					"enemy" : {
+						img: "",
+						cells: []
+						},
+					},
+				goals : [{
+						 "item": {
+							"x": 0,
+							"y": 0,
+							"img": "",
+							"isFound": false,
+							"isCollected": false,
+							"isHome": false
+						}
+					}]
+				};
+			
+		loadMapElements(levelTemplate);
+		
 		$('body').css('overflow', 'scroll');
 
-		$('#mapMode').fadeIn();
+		//$('#mapMode').fadeIn();
 		$('#mapTools').fadeIn();
+		
+		$('#closeMapTools').click(function(){
+			$('#mapTools').hide();
+		});
+		
+		// Make toolbox draggable
+		dragElement(document.getElementById("mapTools"));
 
+		// Generate cells for coordinate system
 		for (let i = 0; i < 10000; i++) {
 			let myCell = document.createElement('div');
 			myCell.classList.add("cell");
 			document.getElementById('editor').appendChild(myCell);
+			
 		}
-
+		
 		// Controls for building map elements
-		$('.cell').click(function() {
-			$(this).toggleClass('active');
-			// $(this).addClass( prompt("Input one of the following: wall, rock, bush, river " } );
+		$('.setCell').click(function(evt) {
+			if ($(this).hasClass('active') ){
+				$('#mapTools *').removeClass('active');
+			} else {
+				$('#mapTools *').removeClass('active');
+				$(this).toggleClass('active');
+				setCells(evt);
+				// $(this).addClass( prompt("Input one of the following: wall, rock, bush, river " } );
+			}
 		})
-		$('.cell').dblclick(function() {
-			$(this).toggleClass('active2');
-			$(this).data("courage", prompt("Please specify a value of this modifier. (i.e. 5 or -5)"));
+
+		
+		function setCells(evt) {
+			console.log(level)
+			evt.preventDefault();
+			let celType = $(evt.target).data("type");
+			let newCellX = $(evt.target).offset().left;
+			let newCellY = ($(evt.target).offset().top-60);
+			$('.cell').off();
+			$('.cell').click(function() {
+				$(this).toggleClass(celType);
+			});
+			$('.cell').dblclick(function() {
+				$(this).toggleClass(celType);
+				$(this).data("mod", prompt("Please specify a value of this modifier. (i.e. 5 or -5)"));
+			})
+			
+		}
+		
+			
+		let mapItems = [];
+		
+		function generateItemCoordinates(n) {
+			mapItems = [];
+			let itemType = n;
+			let sel = `.${n}`;	
+			
+			$(sel).each(function() {
+				console.log(itemType);
+				let y = $(this).offset().top - 60;
+				let x = $(this).offset().left;
+				let mod = $(this).data('mod') || 0;
+				let obj = {
+					"x": x,
+					"y": y,
+					"mod": mod
+				};
+				
+				if (itemType == "courage") {
+					levelTemplate.courage.push(obj);
+				} else {
+					levelTemplate.map[n].cells.push(obj);	
+				}
+			});
+		}
+		
+				
+		$('.setGoalCell').click(function(evt) {
+			if ($(this).hasClass('active') ){
+				$('#mapTools *').removeClass('active');
+			} else {
+				$('#mapTools *').removeClass('active');
+				$(this).toggleClass('active');
+				setGoalCells(evt);
+				// $(this).addClass( prompt("Input one of the following: wall, rock, bush, river " } );
+			}
 		})
+		
+		function setGoalCells(evt) {
+			console.log(level)
+			evt.preventDefault();
+			let celType = $(evt.target).data("type");
+			let newCellX = $(evt.target).offset().left;
+			let newCellY = ($(evt.target).offset().top-60);
+			$('.cell').off();
+			$('.cell').click(function() {
+				$("."+celType).remove();
+				$('#mapTools *').removeClass('active');
+				$(this).toggleClass(celType + " goal");
+				$(this).data("type",celType);
+				$('.cell').off();
+			});
+			$('.cell').dblclick(function() {
+				$("."+celType).remove();
+				$(this).toggleClass(celType + " goal");
+				$(this).data("type",celType);
+				$(this).data("mod", prompt("Please specify a value of this modifier. (i.e. 5 or -5)"));
+				$('.cell').off();
+			})
+		}
+		
+			
+		let goalItems = [];
+		
+		function generateGoalCoordinates() {
+			goalItems = [];
+			levelTemplate.goals = [];
+			$('.goal').each(function() {
+				let celItem = $(this).data("type");
+				let y = $(this).offset().top - 60;
+				let x = $(this).offset().left;
+				let obj = {
+						"item" : celItem,
+						"cells" : {
+						"x": x,
+						"y": y
+						},
+						"isFound": false,
+						"isCollected": false,
+						"isHome": false
+					
+				}
+				levelTemplate.goals.push(obj);	
+			});
+			
+		}
+		
+		
 		$(".cell").contextmenu(function() {
-			alert("x: " + $(this).offset().left + " , y: " + $(this).offset().top);
+			alert("x: " + $(this).offset().left + " , y: " + ($(this).offset().top - 60) );
 		});
 
 		let mapColliders = [];
@@ -52,14 +241,15 @@ $(document).ready(function() {
 		function generateCollidersMap() {
 			mapColliders = [];
 
-			$('.active').each(function() {
+			$('.collider').each(function() {
 				let y = $(this).offset().top - 60;
 				let x = $(this).offset().left;
+				
 				let obj = {
 					"x": x,
-					"y": y
+					"y": y,
 				};
-				mapColliders.push(obj);
+				levelTemplate.collisions.push(obj);
 			});
 			console.log(mapColliders);
 		}
@@ -81,6 +271,49 @@ $(document).ready(function() {
 			});
 			console.log(mapModifiers);
 		}
+		
+		function editBackground() {
+			
+		}
+		
+		function selectBackground() {
+			
+		}
+		
+		function generateItems() {
+			
+		}
+		
+		function generateGoals() {
+			
+		}
+		
+		function createLevel() {
+			
+			if ( $('#levelName').val() == "" ) {
+				levelTemplate.name = prompt("Level name:");
+				$('#levelName').val(levelTemplate.name)
+			} else {
+				levelTemplate.name = $('#levelName').val();
+			}
+			
+			if ( $('#authorName').val() == "" ) {
+				levelTemplate.author = prompt("Author name:");
+				$('#authorName').val(levelTemplate.author)
+			} else {
+				levelTemplate.author = $('#authorName').val();
+			}
+			
+			generateItemCoordinates("wall");
+			generateItemCoordinates("tree");
+			generateItemCoordinates("house");
+			generateItemCoordinates("home");
+			generateItemCoordinates("enemy");
+			generateItemCoordinates("mod");
+			generateCollidersMap();
+			generateGoalCoordinates()
+			console.log(levelTemplate);
+		}
 
 		$('#generateColliders').on("click", function(e) {
 			e.preventDefault();
@@ -91,6 +324,12 @@ $(document).ready(function() {
 			e.preventDefault();
 			generateModifiersMap();
 		});
+		
+		$('#createLevel').on("click", function(e) {
+			e.preventDefault();
+			createLevel();
+		});
+		
 
 	}
 
@@ -105,39 +344,6 @@ $(document).ready(function() {
 	// Character position
 	let curPosX = 64;
 	let curPosY = 64;
-
-	// Define item inventory
-	let curItems = {
-		"homework": {
-			"isCollected": false,
-			"isHome": false
-		},
-		"backpack": {
-			"isCollected": false,
-			"isHome": false
-		},
-		"dog": {
-			"isCollected": false,
-			"isHome": false
-		},
-		"report card": {
-			"isCollected": false,
-
-			"isHome": false
-		},
-		"store": {
-			"isCollected": false,
-			"isHome": false
-		},
-		"milk": {
-			"isCollected": false,
-			"isHome": false
-		},
-		"rocks": {
-			"isCollected": false,
-			"isHome": false
-		}
-	}
 
 	// Character size
 	let charSize = 32;
@@ -175,6 +381,9 @@ $(document).ready(function() {
 
 
 	let level = {
+		name : "Level name",
+		author : "Author name",
+		background : "images/grass.png",
 		collisions: [{
 			"x": 0,
 			"y": 0
@@ -4424,24 +4633,30 @@ $(document).ready(function() {
 		}]
 	}
 
+	
+	
+	
+	// Level setup functions
 
 	// load map elements
-	function loadMap() {
+	function loadMap(level) {
+		//$('#map').css("background",level.map.background)
 		for (key in level.map) {
-			let iter = key
+			let iter = level.map[key].item;
+			let iterNum = key;
 			for (key in level.map[key].cells) {
 				let myCell = document.createElement('div');
-				myCell.classList.add(level.map[iter].item);
-				myCell.style.backgroundImage = level.map[iter].img;
-				myCell.style.left = level.map[iter].cells[key].x + "px";
-				myCell.style.top = level.map[iter].cells[key].y + "px";
+				myCell.classList.add(iter);
+				//myCell.style.backgroundImage = level.map[iter].img;
+				myCell.style.left = level.map[iterNum].cells[key].x + "px";
+				myCell.style.top = level.map[iterNum].cells[key].y + "px";
 				$('#guide').append(myCell);
 			}
 		}
 	}
 
 	// load goals items
-	function loadItems() {
+	function loadItems(level) {
 		for (key in level.goals) {
 			if (level.goals[key].isFound != true) {
 				let myCell = document.createElement('div');
@@ -4455,10 +4670,10 @@ $(document).ready(function() {
 	}
 
 	// Populates map from level 
-	function loadMapElements() {
+	function loadMapElements(level) {
 		$("#guide").html("");
-		loadMap();
-		loadItems();
+		loadMap(level);
+		loadItems(level);
 	}
 
 
@@ -4575,6 +4790,10 @@ $(document).ready(function() {
 	}
 
 
+
+	//Game Logic
+
+
 	// adjust courage and handle items
 	function checkHome() {
 		// Test if current position matches original position
@@ -4586,9 +4805,11 @@ $(document).ready(function() {
 			for (key in level.goals) {
 				if (level.goals[key].isCollected == true && level.goals[key].isHome == false) {
 					level.goals[key].isHome = true;
-					$('#console').html('You brought home ' + level.goals[key].item + "! Your courage will now last longer!");
+					$('#console').html('<p>You brought home ' + level.goals[key].item + "! Your courage will now last longer!</p>");
 					$('#invHome').append($('#invBag').html())
 					$('#invBag').html("");
+				} else {
+					$('#console').html('<p>Welcome home! You can always return here to rebuild your courage.</p>');
 				}
 			}
 		} else {
@@ -4612,16 +4833,17 @@ $(document).ready(function() {
 		//}
 	}
 
-	function evalCourage() {
-		// curItems - object with list of items, prop for isHome
-
-		for (key in curItems) {
-			if (curItems[key].isHome == true) {
-				courageBoost += 10;
-			}
-		}
-
-	}
+	// future development - coule be used to adjust courage as you collect items
+	//function evalCourage() {
+	//	// curItems - object with list of items, prop for isHome
+	//
+	//	//for (key in curItems) {
+	//	//	if (curItems[key].isHome == true) {
+	//	//		courageBoost += 10;
+	//	//	}
+	//	//}
+	//}
+	
 	// Test if character can move to destination cell
 	function checkMove(n) {
 		let newPosX = 0;
@@ -4668,22 +4890,41 @@ $(document).ready(function() {
 					if (level.goals[key].item == "mushroom") {
 						tripOut();
 						level.goals[key].isFound = true;
-						loadMapElements();
+						loadMapElements(level);
+						checkWin();
 					} else {
-						$('#console').html('You collected a ' + level.goals[key].item + "! Return home for a courage boost.");
+						$('#console').html('<p>You collected a ' + level.goals[key].item + "! Return home for a courage boost.</p>");
 						let myItem = level.goals[key].item;
 						level.goals[key].isCollected = true;
 						level.goals[key].isFound = true;
 						let invItem = document.createElement('img');
-						console.log(level.goals[key].img)
-						console.log(level.goals[key].item)
 						invItem.src = level.goals[key].img;
 						invItem.classList.add('collected');
 						document.getElementById('invBag').appendChild(invItem);
-						loadMapElements();
+						loadMapElements(level);
+						checkWin();
 					}
 				}
 			}
+		}
+		
+	}
+	
+	function checkWin() {
+		//Test win conditions
+		console.log(level.goals.length);
+		let totItems = 0;
+		console.log(totItems);
+		for (key in level.goals) {
+			if (level.goals[key].isFound == true) {
+				totItems += 1;
+				console.log(totItems);
+			}
+		}
+		if (totItems == level.goals.length) {
+			$('#console').html("You win!");
+		} else {
+			setTimeout(function() { $('#console').html("<p>Keep exploring the map for more items!</p>"); }, 5000);
 		}
 	}
 
@@ -4697,16 +4938,16 @@ $(document).ready(function() {
 						curCourage += parseInt(level.map[iter].cells[key].mod);
 						modPoints += parseInt(level.map[iter].cells[key].mod);
 						$('#invMod').html(modPoints);
-						$('#console').html("You received a +" + level.map[iter].cells[key].mod + " courage boost!")
+						$('#console').html("<p>You received a +" + level.map[iter].cells[key].mod + " courage boost!</p>")
 						$("#courage").animate(function() {
 							width: curCourage
 						}, animSpeed, function() {
 							// Animation complete.
-							$('#console').html("You received a +" + level.map[iter].cells[key].mod + " courage boost!")
+							$('#console').html("<p>You received a +" + level.map[iter].cells[key].mod + " courage boost!</p>");
 							// Remove modifier from list
 							level.map[iter].cells.splice(key, 1);
 							// Update modifiers from list
-							loadMapElements();
+							loadMapElements(level);
 						});
 					}
 				}
@@ -4720,14 +4961,14 @@ $(document).ready(function() {
 						curCourage += parseInt(level.map[iter].cells[key].mod);
 						modPoints += parseInt(level.map[iter].cells[key].mod);
 						$('#invMod').html(modPoints);
-						$('#console').html("You've been attacked! You lost " + level.map[iter].cells[key].mod + " courage!")
+						$('#console').html("<p>You've been attacked! You lost " + level.map[iter].cells[key].mod + " courage!</p>")
 						$("#courage").animate(function() {
 							width: curCourage
 						}, animSpeed, function() {
 							// Animation complete.
-							$('#console').html("You've been attacked! You lost " + level.map[iter].cells[key].mod + " courage!")
+							$('#console').html("<p>You've been attacked! You lost " + level.map[iter].cells[key].mod + " courage!</p>")
 							level.map[iter].cells.splice(key, 1);
-							loadMapElements();
+							loadMapElements(level);
 						});
 					}
 				}
@@ -4752,17 +4993,18 @@ $(document).ready(function() {
 				deathWall.id = "deathWall";
 				deathWall.style.position = "absolute";
 				deathWall.style.top = 0;
-				deathWall.style.left = deathWallWidth + "%";
+				deathWall.style.left = deathWallWidth + "vw";
 				deathWall.style.bottom = 0;
 				deathWall.style.right = 0;
 				deathWall.style.transition = ".125s ease all";
-				document.getElementById('deatWall').appendChild(deathWall);
-
+				document.getElementById('deathWallContainer').appendChild(deathWall);
+				$('#console').html("<p>Your courage is depleted and the dark cloud is approaching! Hurry home!</p>")
 				let deathWallInterval = setInterval(function() {
 					deathWallWidth -= 5;
-					deathWall.style.left = deathWallWidth + "%";
+					deathWall.style.left = deathWallWidth + "vw";
 
 					$('#character').css("animation", "crying .5s infinite");
+					
 
 					if ($("#deathWall").length != 0) {
 						if (curPosX == 64 && curPosY == 64) {
@@ -4774,9 +5016,8 @@ $(document).ready(function() {
 							clearInterval(deathWallInterval);
 							$('#character').css("background", "url(images/WlkBk1.png)");
 							$('#character').css("animation", "none");
-						}
-
-						if (curCourage >= 1) {
+							$('#console').html("<p>You made it safely back home. Recharge your courage and keep exploring the map!</p>")
+						} else if (curCourage >= 1) {
 							deathWallWidth = 100;
 							$("#deathWall").fadeOut(500, function() {
 								$("#deathWall").remove();
@@ -4784,10 +5025,11 @@ $(document).ready(function() {
 							clearInterval(deathWallInterval);
 							$('#character').css("background", "url(images/WlkBk1.png)");
 							$('#character').css("animation", "none");
+							$('#console').html("<p>Your courage boost saved you! Recharge your courage and keep exploring the map.</p>")
 						}
 
 						if (curPosX >= ($('#deathWall').offset().left + 50)) {
-							$('#console').html("Game over! You lost.");
+							$('#console').html("<p>Game over! You lost.</p>");
 							$(document).off();
 							$('#character').fadeOut();
 							deathWallWidth = -40;
@@ -4798,7 +5040,7 @@ $(document).ready(function() {
 						}
 
 						if (deathWallWidth == 0) {
-							$('#console').html("Game over! You lost.");
+							$('#console').html("<p>Game over! You lost.</p>");
 							$(document).off();
 							$('#character').fadeOut();
 							clearInterval(deathWallInterval);
@@ -4833,7 +5075,7 @@ $(document).ready(function() {
 			$('#newGame').fadeOut();
 		});
 		// Set welcome message on console.
-		$('#console').html("Welcome! Your courage level will drop as you explore the map and bring items home. Return home to rebuild courage!");
+		$('#console').html("<p>Welcome! Your courage level will drop as you explore the map and bring items home. Return home to rebuild courage!</p>");
 
 		// Controls
 		$('#controlLeft').on('click press', function() {
@@ -4870,7 +5112,7 @@ $(document).ready(function() {
 			$(window).scrollTop(0);
 
 			// Show map layers
-			loadMapElements();
+			loadMapElements(level);
 			$('#guide').fadeIn();
 
 			// Preload images
@@ -4922,7 +5164,7 @@ $(document).ready(function() {
 			//$('#mapOverlay').fadeIn();
 
 			if (guideHidden == true) {
-				loadMapElements();
+				loadMapElements(level);
 			}
 		});
 
@@ -4946,7 +5188,7 @@ $(document).ready(function() {
 
 		// Start courage level timer
 		setInterval(function() {
-
+			//console.log("courage:" + curCourage);
 			if (curCourage <= 0) {
 				// if at home
 				if (curPosX == origPosX && curPosY == origPosY) {
@@ -4957,6 +5199,9 @@ $(document).ready(function() {
 				} else {
 					// if not at home
 					curCourage = -1;
+					$('#courage').animate({
+						"width": curCourage + "%"
+					}, 500);
 				}
 			} else if (curCourage > 100) {
 				curCourage = 100;
@@ -4973,9 +5218,74 @@ $(document).ready(function() {
 			}
 		}, 1000);
 
-
-
 	}
+	
+	//console animation
+	
+	 // select the target node
+	var target = document.querySelector('#console')
+	// create an observer instance
+	var observer = new MutationObserver(function(mutations) {
+		 console.log($('#console').text());
+		 $('#console > p').hide();
+		 $('#console > p').delay(400).slideDown(500);
+		$(target).slideUp(300);
+		$(target).slideDown(400);
+	});
+	// configuration of the observer:
+	var config = { childList: true, characterData: true };
+	// pass in the target node, as well as the observer options
+	observer.observe(target, config);
+	
+	$("#body").on('DOMSubtreeModified', "#console", function() {
+		$(this).slideUp(500);
+		$(this).slideDown(500);
+	});
+	
+	
+	// Helper functions
+	
+	
+	function dragElement(elmnt) {
+		var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+		if (document.getElementById(elmnt.id + "Header")) {
+		  // if present, the header is where you move the DIV from:
+		  document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
+		} else {
+		  // otherwise, move the DIV from anywhere inside the DIV: 
+		  elmnt.onmousedown = dragMouseDown;
+		}
+	  
+		function dragMouseDown(e) {
+		  e = e || window.event;
+		  e.preventDefault();
+		  // get the mouse cursor position at startup:
+		  pos3 = e.clientX;
+		  pos4 = e.clientY;
+		  document.onmouseup = closeDragElement;
+		  // call a function whenever the cursor moves:
+		  document.onmousemove = elementDrag;
+		}
+	  
+		function elementDrag(e) {
+		  e = e || window.event;
+		  e.preventDefault();
+		  // calculate the new cursor position:
+		  pos1 = pos3 - e.clientX;
+		  pos2 = pos4 - e.clientY;
+		  pos3 = e.clientX;
+		  pos4 = e.clientY;
+		  // set the element's new position:
+		  elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+		  elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+		}
+	  
+		function closeDragElement() {
+		  // stop moving when mouse button is released:
+		  document.onmouseup = null;
+		  document.onmousemove = null;
+		}
+	  }
 
 	if (iAgree == true) {
 		summonInit();

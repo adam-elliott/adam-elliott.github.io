@@ -146,6 +146,20 @@ button {
 	touch-action: manipulation;
 }
 
+.left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+
+.clear {
+	float:none;
+	clear:both;
+}
+
+
 body.splash {
 	margin: 0;
 	padding: 0;
@@ -161,6 +175,11 @@ body.game, #map {
 #map {
 	background: url('../images/grass.png');
 }
+
+#loadLevel {
+	position:fixed;
+	left:10px;
+	top:10px;}
 
 #splash {
 	width: 800px;
@@ -254,6 +273,7 @@ body.game, #map {
 	background: url('../images/grass.png');
 	position: absolute;
 	top: 60px;
+	overflow:hidden;
 	
 }
 
@@ -269,7 +289,7 @@ body.game, #map {
 
 #editor {
 	background: none;
-	z-index: 3;
+	z-index: 6;
 	
 }
 
@@ -322,17 +342,77 @@ body.game, #map {
 }
 
 .home {
-	background-color: green;
+	background: url('../images/houseBlue.png ');
+	overflow:visible;
+	height:96px;
+	width:96px;
 }
 
-.wall,
-.item,
-.modifier,
-.tree,
-.enemy {
+.item {
+	position: absolute;
+}
+
+
+#editor .wall,
+#editor .modifier,
+#editor .tree,
+#editor .enemy,
+#editor .home,
+#editor .house,
+#editor .collider,
+#editor .courage,
+#editor .dog{
 	width: 32px;
 	height: 32px;
-	position: absolute;
+	position:relative;
+}
+
+#editor .courage {
+	background-color: rgb(249, 4, 147) !important;
+}
+
+#editor .dog{
+	background:url('../images/dog.png')
+}
+
+#editor .home,
+#editor .house{
+	background:rgba(9, 182, 234, 0.75);
+	border: 3px solid red;
+	/* z-index: 5; */
+}
+
+#editor .house::after,
+#editor .home::after{
+	content:"";
+	width:96px;
+	height:64px;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index: -55;
+}
+
+#editor .home:after {
+	background-image:url('../images/houseBlue.png');
+	/* z-index: -1; */
+}
+
+#editor .collider {
+	border:3px solid red;
+}
+
+#guide .wall,
+#guide .modifier,
+#guide .tree,
+#guide .enemy {
+	width: 32px;
+	height: 32px;
+	position:absolute;	
+}
+
+#guide .home {
+	position:absolute;
 }
 
 .wall {
@@ -340,7 +420,8 @@ body.game, #map {
 }
 
 .item {
-	background-color: transparent;
+		width: 32px;
+		height: 32px;
 }
 
 .tree {
@@ -351,9 +432,13 @@ body.game, #map {
 	background:url('../images/enemy2.gif');
 }
 
+.collider {
+	border:black 1px solid;
+}
 
 
-.house {
+
+.house, .house:after {
 	background-image:url('../images/houseGeneric.png');
 	width:96px;
 	height:64px;
@@ -370,10 +455,10 @@ body.game, #map {
 
 #home, #barn {
 	width:96px;
-	height:96px;
+	height:64px;
 	position:absolute;
 	left:32px;
-	top:0px;
+	top:32px;
 	background-image:url('../images/houseBlue.png')
 }
 
@@ -383,7 +468,7 @@ body.game, #map {
 	background-image:url('../images/barn.png')
 }
 
-.modifier {
+.modifier, .mod {
 	background-color: yellow;
 	background: url('../images/hotchocolate.png')
 }
@@ -399,8 +484,19 @@ i {
 }
 
 #deathWall {
-	background: url('../images/deathwall.png') left top repeat-y ;
-	background-size:cover;
+	/* background: url('../images/deathwall.png') left top repeat-y; */
+	/* background-size:cover; */
+	background: rgba(40,40,40,.65);
+	
+}
+
+#deathWallContainer {
+	position:fixed;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	z-index: 5;
 }
 
 #mapOverlay {
@@ -414,16 +510,171 @@ i {
 }
 
 #viewGuide,
-#mapMode,
-#mapTools {
+#mapMode {
 	display: none;
 }
 
 #mapTools {
-	position:fixed;
+	position:absolute;
+	padding:10px;
+	background-color:white;
+	box-shadow:5px 5px 15px rgba(0,0,0,.28);
 	left:10px;
 	top:10px;
+	z-index: 99999;
+	display:none;
+	overflow-y:hidden;
+	font-family: Poppins !important;
+	max-width: 350px;
+	
 }
+
+#mapToolsPanel {
+	overflow-y:scroll;
+	max-height:70vh;
+}
+
+#mapTools h1, #mapTools h2, #mapTools h3, #mapTools h4 {
+	text-transform:uppercase;
+	font-family:Poppins !important;
+	font-weight: 600;
+	/* margin-top: 20px; */
+}
+
+#mapTools h1 {
+	font-family:Poppins !important;
+	font-size:1.4em;
+	padding: 14px;
+}
+
+#mapTools h2 {
+	font-size:.9em;
+}
+
+#mapTools h3 {
+	font-size: 0.75em;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+#mapTools h4 {
+	font-size: 0.75em;
+	margin-top: 30px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+}
+
+#mapToolsHeader {
+	overflow:hidden;
+	margin-bottom: 0px;
+	height:100%;
+	padding:15px 10px;
+	cursor: move;
+	font-size:10px;
+	background:rgb(64, 140, 67);
+	margin: -10px -10px 0px -10px;
+	transition:.124s ease all;
+	color:white;
+}
+
+#mapToolsHeader:hover {
+	background:rgb(51, 109, 53);
+	cursor: move;
+	color:#fff;
+}
+
+#mapTools p {
+	padding:5px;
+}
+
+#mapTools #closeMapTools {
+	padding:10px;
+}
+
+#mapTools #closeMapTools {
+	cursor:pointer;
+}
+
+#mapTools form#mapInputs {
+	overflow:hidden;
+	margin-bottom: 0px;
+	height:100%;
+}
+
+#mapTools button {
+	transition:.124s ease all;
+	width: 90%;
+	margin-bottom:5px;
+	background: rgba(160,160,160,1);
+	margin: 5px 10px;
+	color: white;
+	font-size: .86em;
+	padding: .5em auto;
+}
+
+#mapTools button#setHomeCells.active {
+	color:white;
+	background-color: #B51E1E;
+}
+
+
+#mapTools button.active {
+	color:white;
+	background-color: blue;
+}
+
+#mapTools #createLevel {
+	padding:20px;
+	margin: 10px;
+}
+
+#mapTools button:hover {
+	background:rgb(64, 140, 67);
+}
+
+#mapTools label, #mapTools input, #mapTools p {
+	min-width: 14px;
+	margin:5px;
+	font-size: 0.9em;
+	position: relative;
+	line-height: 1.5em;
+	color: #3d3d3d;
+	max-width: 130px;
+}
+
+
+#mapTools p {
+	max-width: 100%;;
+}
+
+#mapTools label{
+	font-weight:bold;
+}
+
+#mapTools hr {
+	margin:20px 0px;
+}
+
+#mapTools table {
+  border-collapse: collapse;
+  width: 90%;
+  font-size: .7em;
+  margin: 10px 0px 5px 10px;
+}
+
+#mapTools th, #mapTools td {
+  text-align: left;
+  padding: 8px;
+}
+
+#mapTools tr:nth-child(even){background-color: #f2f2f2}
+
+#mapTools th {
+  background-color: #3d3d3d;
+  color: white;
+}
+
 
 #newGame{
 	background-color:rgba(0,0,0,.85);
@@ -452,6 +703,11 @@ i {
 	z-index: 1000;
 	background-color: #fff;
 	color: green;
+}
+
+label {
+		font-size: 10px;
+		/* font-family: monospace; */
 }
 
 #inventory {
@@ -502,6 +758,17 @@ i {
 }
 
 #deathWall {
-	width:100vw;
-	height:100vh;
+	width: 100vw;
+	height: 100vh;
 }
+
+button#setItem, button#clearItem {
+    font-size: 1em;
+    background: rgb(140,150,150);
+    width: 90%;
+}
+
+div#guide {
+    width: 100%;
+    height: 100%;
+    position: relat

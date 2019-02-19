@@ -4668,7 +4668,19 @@ $(document).ready(function() {
 			}
 		}
 	}
-
+	
+	function simulateWin() {
+		for (key in level.goals) {
+			level.goals[key].isFound = true;
+			level.goals[key].isCollected = true;
+			level.goals[key].isHome = true;
+		}
+		console.log(level);
+	}
+	
+	//simulateWin();
+	
+	
 	// Populates map from level 
 	function loadMapElements(level) {
 		$("#guide").html("");
@@ -4800,7 +4812,7 @@ $(document).ready(function() {
 		if (curPosX == origPosX && curPosY == origPosY) {
 			// Make courage increase
 			curInterval = riseSpeed;
-
+			
 			// Handle collected items
 			for (key in level.goals) {
 				if (level.goals[key].isCollected == true && level.goals[key].isHome == false) {
@@ -4808,10 +4820,12 @@ $(document).ready(function() {
 					$('#console').html('<p>You brought home ' + level.goals[key].item + "! Your courage will now last longer!</p>");
 					$('#invHome').append($('#invBag').html())
 					$('#invBag').html("");
+					
 				} else {
 					$('#console').html('<p>Welcome home! You can always return here to rebuild your courage.</p>');
 				}
 			}
+			checkWin();
 		} else {
 			// Make courage decrease
 			curInterval = dropSpeed;
@@ -4881,9 +4895,27 @@ $(document).ready(function() {
 
 		return isTrue;
 	}
+	
+	//Test win conditions versus level object goals
+	function checkWin() {
+		let totItems = 0;
+		for (key in level.goals) {
+			if (level.goals[key].isFound == true) {
+				totItems += 1;
+				console.log(totItems);
+			}
+		}
+		if (totItems == level.goals.length) {
+			$('#console').html("You win!");
+		} else {
+			$('#console').html(`<p>You have found ${totItems} of ${level.goals.length} goals. Keep exploring the map for more items!</p>`);
+		}
+		console.log(`You have found ${totItems} of ${level.goals.length} goals.`);
+	}
+
 
 	// Handle collectable items
-	function handleItems() {
+	function handleItems() {	
 		for (key in level.goals) {
 			if (level.goals[key].x == curPosX && level.goals[key].y == curPosY) {
 				if (level.goals[key].isFound != true) {
@@ -4907,26 +4939,8 @@ $(document).ready(function() {
 				}
 			}
 		}
-		
 	}
 	
-	function checkWin() {
-		//Test win conditions
-		console.log(level.goals.length);
-		let totItems = 0;
-		console.log(totItems);
-		for (key in level.goals) {
-			if (level.goals[key].isFound == true) {
-				totItems += 1;
-				console.log(totItems);
-			}
-		}
-		if (totItems == level.goals.length) {
-			$('#console').html("You win!");
-		} else {
-			setTimeout(function() { $('#console').html("<p>Keep exploring the map for more items!</p>"); }, 5000);
-		}
-	}
 
 	// Handle modifiers
 	function handleModifiers() {
@@ -5237,10 +5251,10 @@ $(document).ready(function() {
 	// pass in the target node, as well as the observer options
 	observer.observe(target, config);
 	
-	$("#body").on('DOMSubtreeModified', "#console", function() {
-		$(this).slideUp(500);
-		$(this).slideDown(500);
-	});
+	//$("#body").on('DOMSubtreeModified', "#console", function() {
+	//	$(this).slideUp(500);
+	//	$(this).slideDown(500);
+	//});
 	
 	
 	// Helper functions

@@ -70,7 +70,7 @@
 						
 						<td>0</td>
 						<td><button id="setItem" class="setCell" data-type="wall">Define </button></td>
-						<td><button id="clearItem" class="clearCell" data-map="" data-type="wall">Clear</button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="wall">Clear All</button></td>
 					</tr>
 					<!--<tr class="mapItem">-->
 					<!--	<td>Home</td>-->
@@ -84,28 +84,28 @@
 						
 						<td>0</td>
 						<td><button id="setItem" class="setCell" data-type="house">Define </button></td>
-						<td><button id="clearItem" class="clearCell" data-map="" data-type="house">Clear </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="house">Clear All</button></td>
 					</tr>
 					<tr class="mapItem">
 						<td>Tree</td>
 						
 						<td>0</td>
 						<td><button id="setItem" class="setCell" data-type="tree">Define </button></td>
-						<td><button id="clearItem" class="clearCell" data-map="" data-type="tree">Clear </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="tree">Clear All</button></td>
 					</tr>
 					<tr class="mapItem">
 						<td>Mod</td>
 						
 						<td>0</td>
-						<td><button id="setItem" class="setCell" data-type="mod">Define </button></td>
-						<td><button id="clearItem" class="clearCell" data-map="" data-type="mod">Clear </button></td>
+						<td><button id="setItem" class="setCell" data-type="modifier">Define </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="modifier">Clear All</button></td>
 					</tr>					
 					<tr class="mapItem">
 						<td>Enemy</td>
 						
 						<td>0</td>
 						<td><button id="setItem" class="setCell" data-type="enemy">Define </button></td>
-						<td><button id="clearItem" class="clearCell" data-map="" data-type="enemy">Clear </button></td>
+						<td><button id="clearItem" class="clearCell" data-map="" data-type="enemy">Clear All</button></td>
 					</tr>
 				</table>
 				<!--<button id="addLevelItem">Add Item Type</button>-->
@@ -122,29 +122,59 @@
 						<th>Cell</th>
 					</tr>
 					<tr>
-						<td>Item</td>
+						<td>Dog</td>
 						<td><button id="setItem" class="setGoalCell" data-type="dog" data-goal="true">Set Cell</button></td>
 					</tr>
+					<tr>
+						<td>Ingredients</td>
+						<td><button id="setItem" class="setGoalCell" data-type="ingredients" data-goal="true">Set Cell</button></td>
+					</tr>
+					<tr>
+						<td>Milk</td>
+						<td><button id="setItem" class="setGoalCell" data-type="milk" data-goal="true">Set Cell</button></td>
+					</tr>
+					<tr>
+						<td>Rocks</td>
+						<td><button id="setItem" class="setGoalCell" data-type="rocks" data-goal="true">Set Cell</button></td>
+					</tr>
+					<tr>
+						<td>Homework</td>
+						<td><button id="setItem" class="setGoalCell" data-type="homework" data-goal="true">Set Cell</button></td>
+					</tr>
+					<tr>
+						<td>Report Card</td>
+						<td><button id="setItem" class="setGoalCell" data-type="reportcard" data-goal="true">Set Cell</button></td>
+					</tr>
+					<tr>
+						<td>Mushroom</td>
+						<td><button id="setItem" class="setGoalCell" data-type="mushroom" data-goal="true">Set Cell</button></td>
+					</tr>
+					<tr>
+					
 					
 				</table>
 				<button id="addLevelGoal">Add Goal</button>
 				<hr>
 				
-				<h4>Home Cells</h4>
-				<p>Home cells allow your character to recharge. You can define as many as you like, but you must have a minimum on one.</p>
+<!--				<h4>Home Cells</h4>
+				<p>You can define as many as you like, but you must have a minimum on one.</p>
 				
 				<button class="setCell" id="setHomeCells" data-type="courage" >Define Courage Cells</button>
 				<button class="clearCell" id="clearHomeCells" data-type="courage" >Clear Courage Cells</button>
 				
-				<hr/>
+				<hr/>-->
 				<h3>Define Collider Cells</h3>
-				<p>Level maps require the following cell types to be defined. Toggle the button and click cells on the map to define cells.</p>
-				
-				
-				<h4>Collider Cells</h4>
 				<p>Collider cells are cells that your character will not be able to enter.</p>
+				<br>
+				<p>Use the buttons below to auto-define collider cells by item.</p>
+				<button class="setCollider" id="setWallColliderCells" data-type="collider" >Make Walls Colliders</button>
+				<button class="setCollider" id="setTreeColliderCells" data-type="collider" >Make Trees Colliders</button>
+				
+				
+				<h4>Custom Collider Cells</h4>
+				<p>You can also define custom colliders. Use the tools below to choose custom collider cells.</p>
 				<button class="setCell" id="setColliderCells" data-type="collider" >Define Collider Cells</button>
-				<button class="clearCell" id="clearColliderCells" data-type="home" >Clear Collider Cells</button>
+				<button class="clearCell" id="clearColliderCells" data-type="collider" >Clear Collider Cells</button>
 				
 	
 			
@@ -155,29 +185,25 @@
 				
 				<hr>
 				<h3>Export Level</h3>
-				<p>The final step is to export your level object for game play. I/O is currently under development, but you can view the output in your browser console..</p>
+				<p>Once your leve is complete you can click the button below to save it to the database. Saving levels requires a password. You can request a password by contacting <a href="mailto:adam@adamelliott.com">the game creator</a>.</p>
 				<button id="createLevel">Export Level</button>
 				
 			</div>
 		</div>
 	
 	<div id="hud">
+		<p class="left">Level:</p>
 		
-		<div id="loadLevel">
-			<!--<label class="label" for="level">Choose:</label>-->
-			<br/>
-			<select id="levelSel">
-				<option value="js/level/level1.js">Level 1</option>
-				<option value="js/level/level2.js">Level 2</option>
-				<option value="js/level/level3.js">Level 3</option>
-			</select>
-		</div>
+		<select id="loadLevel">
+			<option id="" data-level="">Choose:</option>
+		</select>
+		<i class="fas fa-plus-circle left" class="left" id="addLevel"></i>
 			
 		<h1>Summon Your Courage</h1>
 		<div id="courageMeter">
 			<div id="courage"></div>
 		</div>
-		<div id="audioToggle"><i class="fas fa-volume-mute"></i></div>
+		<div id="audioToggle"><i class="fas fa-volume-mute" id="audioMute"></i></div>
 	</div>
 	<div id="console"></div>
 	<div id="mobileControls">

@@ -1,0 +1,11 @@
+Known bugs
+
+- map builder
+-- houses block cells from defining colliders
+-- can't clear any items yet
+-- need to remove elements with class, not remove entire cells for goal items - may be resolved
+-- make button(s) to generate colliders from walls and trees
+
+
+- checkwin function is triggering win before you make it home with all the items
+

@@ -177,9 +177,21 @@ body.game, #map {
 }
 
 #loadLevel {
-	position:fixed;
-	left:10px;
-	top:10px;}
+	    top: 5px;
+    float: left;
+    position: relative;
+	}
+
+#addLevel{
+	opacity: .4;
+	font-size:.5em;
+	padding:4px;
+}
+
+#addLevel:hover {
+	opacity: 1;
+	cursor: pointer;
+}
 
 #splash {
 	width: 800px;
@@ -267,6 +279,11 @@ body.game, #map {
 	box-shadow: 5px 5px 15px rgba(25, 25, 25, .3);
 }
 
+#hud p {
+	font-size: .6em;
+	padding: 10px;
+}
+
 #map, #editor {
 	width: 1952px;
 	height: 1370px;
@@ -290,7 +307,7 @@ body.game, #map {
 #editor {
 	background: none;
 	z-index: 6;
-	
+	display:none;
 }
 
 #character {
@@ -308,6 +325,7 @@ body.game, #map {
 	font-size:12px;
 	text-align:center;
 	margin:0 auto;
+	max-width:400px;
 }
 
 #courageMeter {
@@ -331,6 +349,7 @@ body.game, #map {
 	box-sizing: border-box;
 	background-color: rgba(255,255,255,.25);
 	z-index: 10000;
+	position: relative;
 }
 
 .active {
@@ -353,6 +372,35 @@ body.game, #map {
 }
 
 
+.store {
+	background-image:url('../images/store.png');
+}
+
+.ingredients {
+	background-image:url('../images/ingredients.png');
+}
+
+.reportcard {
+	background-image:url('../images/reportcard.png');
+}
+
+.homework {
+	background-image:url('../images/bag.png');
+}
+
+.mushroom {
+	background-image:url('../images/mushroom.png');
+}
+
+.milk {
+	background-image:url('../images/milk.png');
+}
+
+.rocks {
+	background-image:url('../images/rocks.png');
+}
+
+
 #editor .wall,
 #editor .modifier,
 #editor .tree,
@@ -371,14 +419,14 @@ body.game, #map {
 	background-color: rgb(249, 4, 147) !important;
 }
 
-#editor .dog{
+.dog{
 	background:url('../images/dog.png')
 }
 
 #editor .home,
 #editor .house{
-	background:rgba(9, 182, 234, 0.75);
-	border: 3px solid red;
+	/*background:rgba(9, 182, 234, 0.75);*/
+	/*border: 3px solid red;*/
 	/* z-index: 5; */
 }
 
@@ -462,9 +510,7 @@ body.game, #map {
 	background-image:url('../images/houseBlue.png')
 }
 
-#barn {
-	left:1696px;
-	top:704px;
+.barn {
 	background-image:url('../images/barn.png')
 }
 
@@ -658,7 +704,7 @@ i {
 
 #mapTools table {
   border-collapse: collapse;
-  width: 90%;
+  width: 95%;
   font-size: .7em;
   margin: 10px 0px 5px 10px;
 }
@@ -725,6 +771,10 @@ label {
 	background-color: #fff;
 }
 
+#inventory .item {
+	position: static;
+	display:inline-block;
+}
 #invBag,
 #invHome,
 #invMod{

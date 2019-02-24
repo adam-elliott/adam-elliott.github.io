@@ -9,3 +9,6 @@ Known bugs
 
 - checkwin function is triggering win before you make it home with all the items
 
+
+- when you switch levels it needs to clear your inventory
+- when you don't have a level loaded the game breaks after you leave and return back home

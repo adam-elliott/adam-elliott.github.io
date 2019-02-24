@@ -49,7 +49,8 @@ $(document).ready(function() {
 		$('#editor').css('z-index','100');
 		$('#editor').show();;
 		$('#guide').html('')
-		
+		$('#map').css('height','1370px')
+		$('#map').css('width','1952px')
 		levelTemplate = {
 				name : "",
 				author : "",
@@ -76,7 +77,7 @@ $(document).ready(function() {
 						img: "",
 						cells: []
 						},
-					"mod" : {
+					"modifier" : {
 						img: "",
 						cells: []
 						},
@@ -629,6 +630,21 @@ $(document).ready(function() {
 	});
 	
 	function loadLevel(e) {
+		curPosX = 64;
+		curPosY = 64;
+		curCourage = 100;
+		
+		$('#character').css("background", "url(images/WlkRgt1.png)");
+			$('#character').animate({
+				left: 64,
+				top: 64
+			}, animSpeed, function() {
+				$('#console').html('<p>You have loaded a new level. Your courage and position were reset.</p>')
+			});
+		
+		$(window).scrollLeft(0);
+		$(window).scrollTop(0);
+		
 		let newLevel = e.currentTarget.selectedOptions[0].dataset.level;
 		//.iter(newLevel)
 		if (newLevel != "") {
@@ -734,13 +750,10 @@ $(document).ready(function() {
 		}
 		
 		//if ( level.hasOwnProperty("goals") ) {
-			if (totItemsFound < level.goals.length) {
-				$('#console').html(`<p>You have found ${totItemsFound} of ${level.goals.length} goals. Keep exploring the map for more items!</p>`);
-			} else if (totItemsFound == level.goals.length && totItemsHome < level.goals.length) {
-				$('#console').html(`<p>You have found ${totItemsFound} of ${level.goals.length} goals. Return home before your courage runs out to win the game!</p>`);
-			}
-			else if ( totItemsHome == level.goals.length ) {
+			if (totItemsFound == level.goals.length && totItemsHome == level.goals.length) {
 				$('#console').html(`<p>You brought all ${totItemsHome} home! You win!</p>`);
+			} else if (totItemsFound < level.goals.length) {
+				$('#console').html(`<p>You have found ${totItemsFound} of ${level.goals.length} goals. Keep exploring the map for more items!</p>`);
 			} else {
 				$('#console').html(`You have found ${totItemsFound} of ${level.goals.length} goals.`);
 			}
@@ -755,12 +768,9 @@ $(document).ready(function() {
 		for (key in level.goals) {
 			if (level.goals[key].cells.x == curPosX && level.goals[key].cells.y == curPosY) {
 				if (level.goals[key].isFound != true) {
-					if (level.goals[key].item == "mushroom") {
-						tripOut();
-						level.goals[key].isFound = true;
-						loadMapElements(level);
-						checkWin();
-					} else {
+						if (level.goals[key].item == "mushroom") {
+							tripOut();
+						}
 						$('#console').html('<p>You collected a ' + level.goals[key].item + "! Return home for a courage boost.</p>");
 						let myItem = level.goals[key].item;
 						level.goals[key].isCollected = true;
@@ -777,7 +787,6 @@ $(document).ready(function() {
 				}
 			}
 		}
-	}
 	
 
 	// Handle modifiers
@@ -1090,16 +1099,21 @@ $(document).ready(function() {
 	}
 	
 	//console animation
-	
+	let consoleAnim = false;
 	 // select the target node
 	var target = document.querySelector('#console')
 	// create an observer instance
 	var observer = new MutationObserver(function(mutations) {
-		 console.log($('#console').text());
-		 $('#console > p').hide();
-		 $('#console > p').delay(400).slideDown(500);
-		$(target).slideUp(300);
-		$(target).slideDown(400);
+		if (consoleAnim == false) {
+			consoleAnim = true;
+			console.log($('#console').text());
+			$('#console > p').hide();
+			$('#console > p').delay(400).slideDown(500);
+		   $(target).slideUp(300);
+		   $(target).slideDown(400, function() {
+				consoleAnim = false;
+			});
+		}
 	});
 	// configuration of the observer:
 	var config = { childList: true, characterData: true };
